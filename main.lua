@@ -14,7 +14,9 @@ Entity = {
 
 function Entity:new(newObj)
   newObj = newObj or {}
+  -- the metatable of the new obj is Entity(self)
   setmetatable(newObj, self)
+  -- method_missing should look at self
   self.__index = self
   return newObj
 end
@@ -23,7 +25,7 @@ function Entity:setImage(filepath)
   self.image = love.graphics.newImage(filepath)
 end
 
-function Entity:gas(x_direction, y_direction)
+function Entity:accelerate(x_direction, y_direction)
   if (x_direction > 0) then
     self.x_accel = self.accel_max
   elseif (x_direction < 0) then
@@ -59,23 +61,39 @@ function Entity:draw()
   love.graphics.print("(".. self.x_accel ..",".. self.y_accel ..")", self.x, self.y - 14 * 2)
 end
 
+-- Read player input
+
+function readPlayerInput()
+  x_acc = 0
+  y_acc = 0
+
+  if love.keyboard.isDown("right") then
+    x_acc = 1
+  end
+  if love.keyboard.isDown("left") then
+    x_acc = -1
+  end
+  if love.keyboard.isDown("down") then
+    y_acc = 1
+  end
+  if love.keyboard.isDown("up") then
+    y_acc = -1
+  end
+
+  return x_acc, y_acc
+end
+
+-- Callback functions for main loop
+
 function love.load()
   hamster = Entity:new()
   hamster:setImage("resources/hamster_ball.png")
 end
 
 function love.update(dt)
-  if love.keyboard.isDown("right") then
-    hamster:gas(1, 0)
-  elseif love.keyboard.isDown("left") then
-    hamster:gas(-1, 0)
-  elseif love.keyboard.isDown("down") then
-    hamster:gas(0, 1)
-  elseif love.keyboard.isDown("up") then
-    hamster:gas(0, -1)
-  else
-    hamster:gas(0, 0)
-  end
+  x_acc, y_acc = readPlayerInput()
+
+  hamster:accelerate(x_acc, y_acc)
 
   hamster:move(dt)
 end
