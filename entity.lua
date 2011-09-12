@@ -44,6 +44,18 @@ function Entity:move(dt)
   self.pos = self.pos + (self.vel * dt)
 end
 
+-- NOTE: technically, the physics shouldn't belong here in entity.
+-- We should probably be able to pass in physics based on the state of the entity
+-- or based on its interaction with the world.
+function Entity:friction(dt)
+  -- Not true friction, but it's enough to simulate it
+  if (not self.vel:isMicro(0.1)) then
+    self.vel = self.vel - self.vel * 0.05
+  else
+    self.vel = Vector:new(0, 0)
+  end
+end
+
 -- Entity view methods (to be separated later)
 function Entity:setImage(filepath)
   self.image = love.graphics.newImage(filepath)

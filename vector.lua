@@ -55,6 +55,11 @@ function Vector:__unm()
    return Vector:new(-self.x, -self.y)
 end
 
+-- When a vector is within some delta-epsilon, zero it out to remove jittering
+function Vector:isMicro(delta)
+  return (math.abs(self.x) < delta) and (math.abs(self.y) < delta)
+end
+
 function Vector:dot(a)
    return self.x * a.x + self.y * a.y
 end

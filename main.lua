@@ -33,7 +33,8 @@ function love.update(dt)
   x_acc, y_acc = readPlayerInput()
 
   hamster:accelerate(x_acc, y_acc)
-
+  hamster:friction(dt)
+  
   hamster:move(dt)
 end
 
