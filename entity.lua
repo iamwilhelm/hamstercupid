@@ -19,10 +19,7 @@ function Entity:new(newObj)
   return newObj
 end
 
-function Entity:setImage(filepath)
-  self.image = love.graphics.newImage(filepath)
-end
-
+-- Entity control methods
 function Entity:accelerate(x_direction, y_direction)
   if (x_direction > 0) then
     self.acc.x = self.accel_max
@@ -41,9 +38,15 @@ function Entity:accelerate(x_direction, y_direction)
   end
 end
 
+-- Entity update methods
 function Entity:move(dt)
   self.vel = self.vel + (self.acc * dt)
   self.pos = self.pos + (self.vel * dt)
+end
+
+-- Entity view methods (to be separated later)
+function Entity:setImage(filepath)
+  self.image = love.graphics.newImage(filepath)
 end
 
 function Entity:draw()
