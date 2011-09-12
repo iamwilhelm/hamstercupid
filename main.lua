@@ -43,10 +43,6 @@ function Entity:accelerate(x_direction, y_direction)
   end
 end
 
-function Entity:accelerate_y(direction)
-  self.y_accel = (direction > 0) and self.accel_max or -self.accel_max
-end
-
 function Entity:move(dt)
   self.x_speed = self.x_speed + (self.x_accel * dt)
   self.y_speed = self.y_speed + (self.y_accel * dt)
