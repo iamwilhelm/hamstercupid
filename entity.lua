@@ -1,22 +1,24 @@
 require('vector.lua')
+require('entity_view.lua')
 
 Entity = {
   pos = Vector:new(300, 300),
   vel = Vector:new(0, 0),
   acc = Vector:new(0, 0),
   accel_max = 500,
-  image = nil,
-  width = 128,
-  height = 128,
+  instance = nil,
 }
 
-function Entity:new(newObj)
-  newObj = newObj or {}
+function Entity:new()
+  local instance = {}
   -- the metatable of the new obj is Entity(self)
-  setmetatable(newObj, self)
+  setmetatable(instance, self)
   -- method_missing should look at self
   self.__index = self
-  return newObj
+
+  instance.view = EntityView:new(instance)
+
+  return instance
 end
 
 -- Entity control methods
@@ -47,28 +49,19 @@ end
 -- NOTE: technically, the physics shouldn't belong here in entity.
 -- We should probably be able to pass in physics based on the state of the entity
 -- or based on its interaction with the world.
-function Entity:friction(dt)
+function Entity:friction(dt, coef)
   -- Not true friction, but it's enough to simulate it
+  coef = coef or 0.05
+
   if (not self.vel:isMicro(0.1)) then
-    self.vel = self.vel - self.vel * 0.05
+    self.vel = self.vel - self.vel * coef
   else
     self.vel = Vector:new(0, 0)
   end
 end
 
 -- Entity view methods (to be separated later)
-function Entity:setImage(filepath)
-  self.image = love.graphics.newImage(filepath)
-end
-
 function Entity:draw()
-  love.graphics.draw(self.image, self.pos.x, self.pos.y)
-  self:drawDebug()
-end
-
-function Entity:drawDebug()
-  love.graphics.print(self.pos:toString(), self.pos.x, self.pos.y)
-  love.graphics.print(self.vel:toString(), self.pos.x, self.pos.y - 14)
-  love.graphics.print(self.acc:toString(), self.pos.x, self.pos.y - 14 * 2)
+  self.view:draw()
 end
 

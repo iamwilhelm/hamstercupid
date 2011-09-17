@@ -26,14 +26,14 @@ end
 
 function love.load()
   hamster = Entity:new()
-  hamster:setImage("resources/hamster_ball.png")
+  hamster.view:setImage("resources/hamster_ball.png")
 end
 
 function love.update(dt)
   x_acc, y_acc = readPlayerInput()
 
   hamster:accelerate(x_acc, y_acc)
-  hamster:friction(dt)
+  hamster:friction(dt, 0.05)
   
   hamster:move(dt)
 end
