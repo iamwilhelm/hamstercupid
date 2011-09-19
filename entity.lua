@@ -1,5 +1,6 @@
 require('vector.lua')
 require('entity_view.lua')
+require('entity_physics.lua')
 
 Entity = {
   accel_max = 500,
@@ -19,6 +20,7 @@ function Entity:new()
   self.__index = self
 
   instance.view = EntityView:new(instance)
+  instance.physics = EntityPhysics:new(instance)
 
   return instance
 end
@@ -43,23 +45,14 @@ function Entity:accelerate(x_direction, y_direction)
 end
 
 -- Entity update methods
-function Entity:move(dt)
+function Entity:update(dt)
   self.vel = self.vel + (self.acc * dt)
   self.pos = self.pos + (self.vel * dt)
 end
 
--- NOTE: technically, the physics shouldn't belong here in entity.
--- We should probably be able to pass in physics based on the state of the entity
--- or based on its interaction with the world.
-function Entity:friction(dt, coef)
-  -- Not true friction, but it's enough to simulate it
-  coef = coef or 0.05
-
-  if (not self.vel:isMicro(0.1)) then
-    self.vel = self.vel - self.vel * coef
-  else
-    self.vel = Vector:new(0, 0)
-  end
+function Entity:move(dt)
+  self:update(dt)
+  self.physics:update(dt)
 end
 
 -- Entity view methods (to be separated later)
