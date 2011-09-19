@@ -2,8 +2,6 @@
 
 Vector = {
    identity = "Vector class",
-   x = 0,
-   y = 0,
 }
 
 function Vector:new(x, y)
@@ -78,10 +76,13 @@ end
 
 -- a = Vector:new(2,2)
 -- print(a:toString())
--- print(math.deg(a:ang()))
 -- b = Vector:new(5,6)
--- print(a:to_s())
--- print(b:to_s())
+-- print(a:toString())
+-- print(b:toString())
+-- 
+-- print(getmetatable(a) == getmetatable(b))
+-- print(Vector == getmetatable(a))
+-- 
 -- print(a:distance(b))
 -- print(a:is_nearby(10, a))
 -- print(a:is_nearby(10, b))

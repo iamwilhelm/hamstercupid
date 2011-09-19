@@ -2,15 +2,17 @@ require('vector.lua')
 require('entity_view.lua')
 
 Entity = {
-  pos = Vector:new(300, 300),
-  vel = Vector:new(0, 0),
-  acc = Vector:new(0, 0),
   accel_max = 500,
   instance = nil,
 }
 
 function Entity:new()
-  local instance = {}
+  local instance = {
+    pos = Vector:new(300, 300),
+    vel = Vector:new(0, 0),
+    acc = Vector:new(0, 0),
+ }
+
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
   -- method_missing should look at self

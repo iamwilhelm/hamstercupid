@@ -1,19 +1,19 @@
 
 EntityView = {
-  model = nil,
-  image = nil,
-  width = 128,
-  height = 128,
+  identity = "EntityView Class"
 }
 
 function EntityView:new(model)
-  local instance = {}
+  local instance = {
+    model = model,
+    image = nil,
+    width = 128,
+    height = 128,
+ }
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
   -- method_missing should look at self
   self.__index = self
-
-  instance.model = model
 
   return instance
 end
