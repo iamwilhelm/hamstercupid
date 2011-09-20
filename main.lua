@@ -3,23 +3,27 @@ require('entity.lua')
 -- Read player input
 
 function readPlayerInput()
-  x_acc = 0
-  y_acc = 0
+  dir_x = 0
+  dir_y = 0
 
   if love.keyboard.isDown("right") then
-    x_acc = 1
+    dir_x = 1
   end
   if love.keyboard.isDown("left") then
-    x_acc = -1
+    dir_x = -1
   end
   if love.keyboard.isDown("down") then
-    y_acc = 1
+    dir_y = 1
   end
   if love.keyboard.isDown("up") then
-    y_acc = -1
+    dir_y = -1
   end
 
-  return x_acc, y_acc
+  return Vector:new(dir_x, dir_y)
+end
+
+function readPlayerWayPoint()
+  return Vector:new(love.mouse.getX(), love.mouse.getY())
 end
 
 -- Callback functions for main loop
@@ -30,10 +34,14 @@ function love.load()
 end
 
 function love.update(dt)
-  x_acc, y_acc = readPlayerInput()
+  hamster.movement:reset()
 
-  hamster:accelerate(x_acc, y_acc)
-  
+  local direction = readPlayerInput()
+  hamster.movement:go(direction.x, direction.y)
+
+  local waypoint = readPlayerWayPoint()
+  hamster.movement:goToDestination(waypoint.x, waypoint.y)
+
   hamster:move(dt)
 end
 

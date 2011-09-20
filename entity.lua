@@ -1,10 +1,9 @@
 require('vector.lua')
 require('entity_view.lua')
 require('entity_physics.lua')
+require('entity_movement.lua')
 
 Entity = {
-  accel_max = 500,
-  instance = nil,
 }
 
 function Entity:new()
@@ -21,38 +20,22 @@ function Entity:new()
 
   instance.view = EntityView:new(instance)
   instance.physics = EntityPhysics:new(instance)
+  instance.movement = EntityMovement:new(instance)
 
   return instance
 end
 
--- Entity control methods
-function Entity:accelerate(x_direction, y_direction)
-  if (x_direction > 0) then
-    self.acc.x = self.accel_max
-  elseif (x_direction < 0) then
-    self.acc.x = -self.accel_max
-  else
-    self.acc.x = 0
-  end
-
-  if (y_direction > 0) then
-    self.acc.y = self.accel_max
-  elseif (y_direction < 0) then
-    self.acc.y = -self.accel_max
-  else
-    self.acc.y = 0
-  end
+-- Entity update methods
+function Entity:move(dt)
+  self.movement:move(dt)
+ 
+  self.physics:move(dt)
+  self:update(dt)
 end
 
--- Entity update methods
 function Entity:update(dt)
   self.vel = self.vel + (self.acc * dt)
   self.pos = self.pos + (self.vel * dt)
-end
-
-function Entity:move(dt)
-  self:update(dt)
-  self.physics:update(dt)
 end
 
 -- Entity view methods (to be separated later)
