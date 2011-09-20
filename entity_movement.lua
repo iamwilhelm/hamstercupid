@@ -24,24 +24,24 @@ function EntityMovement:move(dt)
 end
 
 function EntityMovement:reset()
-  self.pos = Vector:new(0, 0)
-  self.vel = Vector:new(0, 0)
-  self.acc = Vector:new(0, 0)
+  self.pos = V:new(0, 0)
+  self.vel = V:new(0, 0)
+  self.acc = V:new(0, 0)
 end
 
-function EntityMovement:go(x_direction, y_direction)
-  local acc = Vector:new(0, 0)
-  if (x_direction > 0) then
+function EntityMovement:go(direction)
+  local acc = V:new(0, 0)
+  if (direction.x > 0) then
     acc.x = self.accel_max
-  elseif (x_direction < 0) then
+  elseif (direction.x < 0) then
     acc.x = -self.accel_max
   else
     acc.x = 0
   end
 
-  if (y_direction > 0) then
+  if (direction.y > 0) then
     acc.y = self.accel_max
-  elseif (y_direction < 0) then
+  elseif (direction.y < 0) then
     acc.y = -self.accel_max
   else
     acc.y = 0
@@ -50,8 +50,8 @@ function EntityMovement:go(x_direction, y_direction)
   self.acc = self.acc + acc
 end
 
-function EntityMovement:goToDestination(destX, destY)
-  local acc = Vector:new(destX, destY) - self.model.pos
+function EntityMovement:goToDestination(destination)
+  local acc = destination - self.model.pos
 
   self.acc = self.acc + acc
 end

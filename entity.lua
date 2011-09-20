@@ -8,9 +8,9 @@ Entity = {
 
 function Entity:new()
   local instance = {
-    pos = Vector:new(300, 300),
-    vel = Vector:new(0, 0),
-    acc = Vector:new(0, 0),
+    pos = V:new(300, 300),
+    vel = V:new(0, 0),
+    acc = V:new(0, 0),
  }
 
   -- the metatable of the new obj is Entity(self)
@@ -28,12 +28,9 @@ end
 -- Entity update methods
 function Entity:move(dt)
   self.movement:move(dt)
- 
   self.physics:move(dt)
-  self:update(dt)
-end
 
-function Entity:update(dt)
+  -- update velocity and position based on all the movement
   self.vel = self.vel + (self.acc * dt)
   self.pos = self.pos + (self.vel * dt)
 end

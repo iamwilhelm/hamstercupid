@@ -19,7 +19,7 @@ function EntityPhysics:friction(dt, coef)
   if (not self.model.vel:isMicro(0.1)) then
     self.model.vel = self.model.vel - self.model.vel * coef
   else
-    self.model.vel = Vector:new(0, 0)
+    self.model.vel = V:new(0, 0)
   end
 end
 

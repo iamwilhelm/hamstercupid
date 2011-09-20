@@ -3,6 +3,7 @@
 Vector = {
    identity = "Vector class",
 }
+V = Vector
 
 function Vector:new(x, y)
    local instance = {}
