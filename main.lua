@@ -29,23 +29,28 @@ end
 -- Callback functions for main loop
 
 function love.load()
-  hamster = Entity:new()
-  hamster.view:setImage("resources/hamster_ball.png")
+  ball = Entity:new()
+  ball.view:setImage("resources/ball.png")
+
+  player = Entity:new()
+  player.view:setImage("resources/player.png")
 end
 
 function love.update(dt)
-  hamster.movement:reset()
+  player.movement:reset()
 
   local direction = readPlayerInput()
-  hamster.movement:go(direction.x, direction.y)
+  player.movement:go(direction.x, direction.y)
 
   local waypoint = readPlayerWayPoint()
-  hamster.movement:goToDestination(waypoint.x, waypoint.y)
+  player.movement:goToDestination(waypoint.x, waypoint.y)
 
-  hamster:move(dt)
+  player:move(dt)
+  ball:move(dt)
 end
 
 function love.draw()
-  hamster:draw()
+  player:draw()
+  ball:draw()
 end
 
