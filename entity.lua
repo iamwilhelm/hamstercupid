@@ -6,11 +6,12 @@ require('entity_movement.lua')
 Entity = {
 }
 
-function Entity:new()
+function Entity:new(x, y)
   local instance = {
-    pos = V:new(300, 300),
+    pos = V:new(x, y),
     vel = V:new(0, 0),
     acc = V:new(0, 0),
+    parent = nil,
  }
 
   -- the metatable of the new obj is Entity(self)
@@ -21,8 +22,22 @@ function Entity:new()
   instance.view = EntityView:new(instance)
   instance.physics = EntityPhysics:new(instance)
   instance.movement = EntityMovement:new(instance)
+  instance.children = {}
 
   return instance
+end
+
+function Entity:setParentAndOffset(entity_parent, offset)
+  self.parent = entity_parent
+  self.pos = offset
+end
+
+-- Entity children methods
+function Entity:addChild(name, entity_part, offset)
+  self.children[name] = entity_part
+
+  entity_part:setParentAndOffset(self, offset)
+  self.view:addChild(name, entity_part.view)
 end
 
 -- Entity update methods
@@ -37,6 +52,7 @@ end
 
 -- Entity view methods (to be separated later)
 function Entity:draw()
+  -- have to figure out some way draw in z-order of all the children
   self.view:draw()
 end
 
