@@ -6,13 +6,13 @@ require('entity_movement.lua')
 Entity = {
 }
 
-function Entity:new(x, y)
+function Entity:new(x, y, scale, rotation)
   local instance = {
     pos = V:new(x, y),
     vel = V:new(0, 0),
     acc = V:new(0, 0),
-    scl = 1,
-    rot = 0,
+    scl = scale or 1,
+    rot = rotation or 0,
  }
 
   -- the metatable of the new obj is Entity(self)
@@ -28,16 +28,9 @@ function Entity:new(x, y)
   return instance
 end
 
-function Entity:setRelativePosition(offset, rotation)
-  self.pos = offset or V:new(0, 0)
-  self.rot = rotation or 0
-end
-
 -- Entity children methods
-function Entity:addChild(name, entity_part, offset, rotation)
+function Entity:addChild(name, entity_part)
   self.children[name] = entity_part
-
-  entity_part:setRelativePosition(offset, rotation)
   self.view:addChild(name, entity_part.view)
 end
 
