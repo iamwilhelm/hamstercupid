@@ -39,11 +39,12 @@ end
 function EntityView:draw()
   local position = self.model.pos
   local rotation = self.model.rot
+  local scale = self.model.scl
   local center = self:getCenter()
 
   love.graphics.draw(self.image, 
     position.x, position.y, 
-    rotation, 2, 2, 
+    rotation, scale, scale, 
     center.x, center.y) 
 
   for name, view_child in pairs(self.children) do
@@ -58,8 +59,9 @@ end
 function EntityView:transform(block)
   love.graphics.push()
 
-  love.graphics.rotate(self.model.rot)
   love.graphics.translate(self.model.pos.x, self.model.pos.y)
+  love.graphics.rotate(self.model.rot)
+  love.graphics.scale(self.model.scl, self.model.scl)
   block()
 
   love.graphics.pop()

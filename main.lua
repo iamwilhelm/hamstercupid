@@ -28,19 +28,23 @@ end
 -- Callback functions for main loop
 
 function love.load()
-  cow = Entity:new(325, 325)
-  cow.view:setImage("resources/cow.png")
+  -- cow = Entity:new(325, 325)
+  -- cow.view:setImage("resources/cow.png")
 
   player = Entity:new(400, 200)
   player.view:setImage("resources/player.png")
-  
+  player.rot = math.rad(45)
+  player.scl = 2 
+
   ball = Entity:new(0, 0)
   ball.view:setImage("resources/ball.png")
-  player:addChild("ball", ball, V:new(0, -40), math.rad(30))
+  ball.scl = 1
+  player:addChild("ball", ball, V:new(0, -20), math.rad(0))
 
   dog = Entity:new(0, 0)
   dog.view:setImage("resources/dog.png")
-  ball:addChild("dog", dog, V:new(20, 20), math.rad(60))
+  dog.scl = 1
+  ball:addChild("dog", dog, V:new(0, 20), math.rad(60))
 end
 
 function love.update(dt)
@@ -53,11 +57,11 @@ function love.update(dt)
   player.movement:goToDestination(waypoint)
 
   player:move(dt)
-  cow:move(dt)
+  -- cow:move(dt)
 end
 
 function love.draw()
   player:draw()
-  cow:draw()
+  -- cow:draw()
 end
 
