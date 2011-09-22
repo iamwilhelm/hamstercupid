@@ -11,7 +11,8 @@ function Entity:new(x, y)
     pos = V:new(x, y),
     vel = V:new(0, 0),
     acc = V:new(0, 0),
-    parent = nil,
+    scl = 1,
+    rot = 0,
  }
 
   -- the metatable of the new obj is Entity(self)
@@ -27,16 +28,16 @@ function Entity:new(x, y)
   return instance
 end
 
-function Entity:setParentAndOffset(entity_parent, offset)
-  self.parent = entity_parent
-  self.pos = offset
+function Entity:setRelativePosition(offset, rotation)
+  self.pos = offset or V:new(0, 0)
+  self.rot = rotation or 0
 end
 
 -- Entity children methods
-function Entity:addChild(name, entity_part, offset)
+function Entity:addChild(name, entity_part, offset, rotation)
   self.children[name] = entity_part
 
-  entity_part:setParentAndOffset(self, offset)
+  entity_part:setRelativePosition(offset, rotation)
   self.view:addChild(name, entity_part.view)
 end
 

@@ -31,11 +31,16 @@ function love.load()
   cow = Entity:new(325, 325)
   cow.view:setImage("resources/cow.png")
 
-  ball = Entity:new(200, 200)
-  ball.view:setImage("resources/ball.png")
   player = Entity:new(400, 200)
   player.view:setImage("resources/player.png")
-  player:addChild("ball", ball, V:new(0, -40)) 
+  
+  ball = Entity:new(0, 0)
+  ball.view:setImage("resources/ball.png")
+  player:addChild("ball", ball, V:new(0, -40))
+
+  dog = Entity:new(0, 0)
+  dog.view:setImage("resources/dog.png")
+  ball:addChild("dog", dog, V:new(20, 20))
 end
 
 function love.update(dt)

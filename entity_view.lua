@@ -1,3 +1,4 @@
+require('vector.lua')
 
 EntityView = {
   identity = "EntityView Class"
@@ -26,19 +27,18 @@ function EntityView:setImage(filepath)
   self.height = self.image:getHeight()
 end
 
+function EntityView:getCenter()
+  return V:new(self.width / 2, self.height / 2)
+end
+
 -- Entity children methods
 function EntityView:addChild(name, entity)
   self.children[name] = entity
 end
 
 function EntityView:draw()
-  if self.model.parent == nil then
-    position = self.model.pos
-    center = V:new(self.width / 2, self.height / 2)
-  else
-    position = self.model.pos + self.model.parent.pos
-    center = V:new(self.width / 2, self.height / 2)
-  end
+  local position = self.model.pos
+  local center = self:getCenter()
 
   love.graphics.draw(self.image, 
     position.x, position.y, 
@@ -46,9 +46,21 @@ function EntityView:draw()
     center.x, center.y) 
 
   for name, view_child in pairs(self.children) do
-    view_child:draw()
+    self:transform(function()
+      view_child:draw()
+    end)
   end
   -- self:drawDebug()
+end
+
+-- private to transform coordinate to draw the child entity
+function EntityView:transform(block)
+  love.graphics.push()
+
+  love.graphics.translate(self.model.pos.x, self.model.pos.y)
+  block()
+
+  love.graphics.pop()
 end
 
 function EntityView:drawDebug()
