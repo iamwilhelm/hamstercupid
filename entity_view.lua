@@ -42,6 +42,7 @@ function EntityView:draw()
   local scale = self.model.scl
   local center = self:getCenter()
 
+  -- use unpack for position and center vectors
   love.graphics.draw(self.image, 
     position.x, position.y, 
     rotation, scale, scale, 

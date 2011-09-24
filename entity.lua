@@ -1,4 +1,4 @@
-require('vector.lua')
+require('entity_model.lua')
 require('entity_view.lua')
 require('entity_physics.lua')
 require('entity_movement.lua')
@@ -6,23 +6,18 @@ require('entity_movement.lua')
 Entity = {
 }
 
-function Entity:new(x, y, scale, rotation)
-  local instance = {
-    pos = V:new(x, y),
-    vel = V:new(0, 0),
-    acc = V:new(0, 0),
-    scl = scale or 1,
-    rot = rotation or 0,
- }
+function Entity:new(position, scale, rotation)
+  local instance = {}
 
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
   -- method_missing should look at self
   self.__index = self
 
-  instance.view = EntityView:new(instance)
-  instance.physics = EntityPhysics:new(instance)
-  instance.movement = EntityMovement:new(instance)
+  instance.model = EntityModel:new(position, scale, rotation)
+  instance.view = EntityView:new(instance.model)
+  instance.physics = EntityPhysics:new(instance.model)
+  instance.movement = EntityMovement:new(instance.model)
   instance.children = {}
 
   return instance
@@ -39,9 +34,7 @@ function Entity:move(dt)
   self.movement:move(dt)
   self.physics:move(dt)
 
-  -- update velocity and position based on all the movement
-  self.vel = self.vel + (self.acc * dt)
-  self.pos = self.pos + (self.vel * dt)
+  self.model:move(dt)
 end
 
 -- Entity view methods (to be separated later)

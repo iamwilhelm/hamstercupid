@@ -1,10 +1,11 @@
+require('vector.lua')
 require('entity.lua')
 require('camera.lua')
 
 -- Read player input
 
 function readPlayerInput()
-  local direction = Vector:new(0, 0)
+  local direction = V:new(0, 0)
 
   if love.keyboard.isDown('d') then
     direction.x = 1
@@ -66,14 +67,14 @@ function love.load()
   -- cow = Entity:new(325, 325)
   -- cow.view:setImage("resources/cow.png")
 
-  player = Entity:new(400, 200, 2, math.rad(0))
+  player = Entity:new(V:new(400, 200), 2, math.rad(0))
   player.view:setImage("resources/player.png")
 
-  ball = Entity:new(10, 15)
+  ball = Entity:new(V:new(10, 15))
   ball.view:setImage("resources/ball.png")
   player:addChild("ball", ball)
 
-  dog = Entity:new(40, 0, 1, math.rad(10))
+  dog = Entity:new(V:new(40, 0), 1, math.rad(10))
   dog.view:setImage("resources/dog.png")
   ball:addChild("dog", dog)
 end
