@@ -16,10 +16,10 @@ function EntityModel:new(position, scale, rotation)
   return instance
 end
 
-function EntityModel:move(dt)
-   -- update velocity and position based on all the movement
-  self.vel = self.vel + (self.acc * dt)
-  self.pos = self.pos + (self.vel * dt)
+function EntityModel:update(dt)
+  -- update velocity and position based on all the movement
+  -- self.vel = self.vel + (self.acc * dt)
+  -- self.pos = self.pos + (self.vel * dt)
 end 
 
 

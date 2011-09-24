@@ -62,35 +62,51 @@ function map:draw()
 end
 
 -- Callback functions for main loop
+function createCow()
+  cow = Entity:new(325, 325)
+  cow.view:setImage("resources/cow.png")
+  return cow
+end
+
+function createMagician()
+  magician = Entity:new(V:new(400, 200))
+  magician.view:setImage("resources/rpg/magician.front.gif")
+
+  helmet = Entity:new(V:new(-2, -24))
+  helmet.view:setImage("resources/rpg/moonstone.tiara.gif")
+  magician:addChild("helmet", helmet)
+
+  weapon = Entity:new(V:new(-24, 0), 1, math.rad(-10))
+  weapon.view:setImage("resources/rpg/mythril.rod.gif")
+  magician:addChild("weapon", weapon)
+
+  -- TODO should be able to scale each axes separately, for perspective
+  shield = Entity:new(V:new(15, 10), 1, math.rad(0))
+  shield.view:setImage("resources/rpg/adamant.shield.gif")
+  magician:addChild("shield", shield)
+
+  return magician
+end
 
 function love.load()
-  -- cow = Entity:new(325, 325)
-  -- cow.view:setImage("resources/cow.png")
+  entities = {}
 
-  player = Entity:new(V:new(400, 200), 2, math.rad(0))
-  player.view:setImage("resources/player.png")
-
-  ball = Entity:new(V:new(10, 15))
-  ball.view:setImage("resources/ball.png")
-  player:addChild("ball", ball)
-
-  dog = Entity:new(V:new(40, 0), 1, math.rad(10))
-  dog.view:setImage("resources/dog.png")
-  ball:addChild("dog", dog)
+  player = createMagician()
+  table.insert(entities, player)
 end
 
 function love.update(dt)
-  player.movement:reset()
-
   readCameraInput()
 
-  local direction = readPlayerInput()
-  player.movement:go(direction)
+  player:move(dt, function()
+    local direction = readPlayerInput()
+    player.movement:go(direction)
 
-  local waypoint = readPlayerWayPoint()
-  player.movement:goToDestination(waypoint)
+    -- local waypoint = readPlayerWayPoint()
+    -- player.movement:goToDestination(waypoint)
 
-  player:move(dt)
+  end)
+
   -- cow:move(dt)
 end
 

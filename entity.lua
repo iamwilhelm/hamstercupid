@@ -30,11 +30,14 @@ function Entity:addChild(name, entity_part)
 end
 
 -- Entity update methods
-function Entity:move(dt)
-  self.movement:move(dt)
-  self.physics:move(dt)
+function Entity:move(dt, block)
+  self.movement:reset()
 
-  self.model:move(dt)
+  block()
+
+  self.physics:move(dt)
+  self.movement:move(dt)
+  -- self.model:update(dt)
 end
 
 -- Entity view methods (to be separated later)

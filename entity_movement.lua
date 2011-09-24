@@ -19,8 +19,13 @@ end
 -- Entity movement control methods
 function EntityMovement:move(dt)
   self.model.acc = self.acc
-  -- self.vel = self.vel + self.movement.vel
-  -- self.pos = self.pos + self.movement.pos
+  
+  self.model.vel = self.model.vel + self.vel
+  self.model.vel = self.model.vel + (self.model.acc * dt)
+
+  self.model.pos = self.model.pos + self.pos
+  self.model.pos = self.model.pos + (self.model.vel * dt)
+
 end
 
 function EntityMovement:reset()
