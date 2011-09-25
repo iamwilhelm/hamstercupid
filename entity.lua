@@ -15,18 +15,24 @@ function Entity:new(position, scale, rotation)
   self.__index = self
 
   instance.model = EntityModel:new(position, scale, rotation)
-  instance.view = EntityView:new(instance.model)
+  instance.view = EntityView:new(instance, instance.model)
   instance.physics = EntityPhysics:new(instance.model)
   instance.movement = EntityMovement:new(instance.model)
+
+  instance.parent = nil
   instance.children = {}
 
   return instance
 end
 
 -- Entity children methods
-function Entity:addChild(name, entity_part)
-  self.children[name] = entity_part
-  self.view:addChild(name, entity_part.view)
+function Entity:setParent(parent_entity)
+  self.parent = parent_entity
+end
+
+function Entity:addChild(child_entity)
+  child_entity:setParent(self)
+  table.insert(self.children, child_entity)
 end
 
 -- Entity update methods
@@ -35,9 +41,8 @@ function Entity:move(dt, block)
 
   block()
 
-  self.physics:move(dt)
   self.movement:move(dt)
-  -- self.model:update(dt)
+  self.model:update(dt)
 end
 
 -- Entity view methods (to be separated later)

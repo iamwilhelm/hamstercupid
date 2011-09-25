@@ -18,12 +18,14 @@ end
 
 -- Entity movement control methods
 function EntityMovement:move(dt)
-  self.model.acc = self.acc
-  
-  self.model.vel = self.model.vel + self.vel
-  self.model.vel = self.model.vel + (self.model.acc * dt)
+  print("in entitymomvement:move")
+  print(self.acc.x .. "," .. self.acc.y)
+  print(self.vel.x .. "," .. self.vel.y)
+  print(self.pos.x .. "," .. self.pos.y)
+  print("\n")
 
-  self.model.pos = self.model.pos + self.pos
+  self.model.acc = self.acc
+  self.model.vel = self.model.vel + (self.model.acc * dt)
   self.model.pos = self.model.pos + (self.model.vel * dt)
 
 end
@@ -34,6 +36,7 @@ function EntityMovement:reset()
   self.acc = V:new(0, 0)
 end
 
+-- methods to move the character from user input
 function EntityMovement:go(direction)
   local acc = V:new(0, 0)
   if (direction.x > 0) then
@@ -61,4 +64,8 @@ function EntityMovement:goToDestination(destination)
   self.acc = self.acc + acc
 end
 
+function EntityMovement:vibrate(dt)
+  local acc = V:new(0, 0)
+  self.acc = self.acc + acc
+end
 

@@ -4,8 +4,9 @@ EntityView = {
   identity = "EntityView Class"
 }
 
-function EntityView:new(model)
+function EntityView:new(entity, model)
   local instance = {
+    entity = entity,
     model = model,
     image = nil,
     width = nil,
@@ -15,8 +16,6 @@ function EntityView:new(model)
   setmetatable(instance, self)
   -- method_missing should look at self
   self.__index = self
-
-  instance.children = {}
 
   return instance
 end
@@ -31,10 +30,7 @@ function EntityView:getCenter()
   return V:new(self.width / 2, self.height / 2)
 end
 
--- Entity children methods
-function EntityView:addChild(name, entity)
-  self.children[name] = entity
-end
+-- Entity drawing methods
 
 function EntityView:draw()
   local position = self.model.pos
@@ -48,12 +44,14 @@ function EntityView:draw()
     rotation, scale, scale, 
     center.x, center.y) 
 
-  for name, view_child in pairs(self.children) do
+  for name, child_entity in pairs(self.entity.children) do
     self:transform(function()
-      view_child:draw()
+      child_entity:draw()
     end)
   end
-  -- self:drawDebug()
+  if self.entity.parent == nil then
+    self:drawDebug()
+  end
 end
 
 -- private to transform coordinate to draw the child entity
