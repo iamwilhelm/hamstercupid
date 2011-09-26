@@ -4,8 +4,9 @@ EntityMovement = {
   accel_max = 500,
 }
 
-function EntityMovement:new(model)
+function EntityMovement:new(entity, model)
   local instance = {
+    entity = entity,
     model = model,
   }
   setmetatable(instance, self)
@@ -16,17 +17,17 @@ function EntityMovement:new(model)
   return instance
 end
 
+function EntityMovement:toString()
+  return "EntityMovement: " .. self.acc:toString() .. ", " ..
+    self.vel:toString() .. ", " ..
+    self.pos:toString()
+end
+
 -- Entity movement control methods
 function EntityMovement:move(dt)
-  print("in entitymomvement:move")
-  print(self.acc.x .. "," .. self.acc.y)
-  print(self.vel.x .. "," .. self.vel.y)
-  print(self.pos.x .. "," .. self.pos.y)
-  print("\n")
-
   self.model.acc = self.acc
-  self.model.vel = self.model.vel + (self.model.acc * dt)
-  self.model.pos = self.model.pos + (self.model.vel * dt)
+  self.model.vel = self.model.vel + self.vel
+  -- self.model.pos = self.model.pos + (self.model.vel * dt)
 
 end
 
@@ -65,7 +66,12 @@ function EntityMovement:goToDestination(destination)
 end
 
 function EntityMovement:vibrate(dt)
-  local acc = V:new(0, 0)
-  self.acc = self.acc + acc
+  -- local acc = self.entity.model.pos
+  local vel = (V:new(400, 240) - self.entity.model.pos) * 2
+  print("before vibrate")
+  print(self:toString() .. "\n")
+  self.vel = self.vel + vel
+  print("after vibrate")
+  print(self:toString() .. "\n")
 end
 

@@ -49,7 +49,7 @@ function EntityView:draw()
       child_entity:draw()
     end)
   end
-  if self.entity.parent == nil then
+  if not self.entity:hasParent() then
     self:drawDebug()
   end
 end

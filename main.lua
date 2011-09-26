@@ -69,19 +69,19 @@ function createCow()
 end
 
 function createMagician()
-  magician = Entity:new(V:new(400, 200))
+  magician = Entity:new("magician", V:new(400, 200))
   magician.view:setImage("resources/rpg/magician.front.gif")
 
-  helmet = Entity:new(V:new(-2, -24))
+  helmet = Entity:new("helmet", V:new(-2, -24))
   helmet.view:setImage("resources/rpg/moonstone.tiara.gif")
   magician:addChild(helmet)
 
-  weapon = Entity:new(V:new(-24, 0), 1, math.rad(-10))
+  weapon = Entity:new("weapon", V:new(-24, 0), 1, math.rad(-10))
   weapon.view:setImage("resources/rpg/mythril.rod.gif")
   magician:addChild(weapon)
 
   -- TODO should be able to scale each axes separately, for perspective
-  shield = Entity:new(V:new(15, 10), 1, math.rad(0))
+  shield = Entity:new("shield", V:new(15, 10), 1, math.rad(0))
   shield.view:setImage("resources/rpg/adamant.shield.gif")
   magician:addChild(shield)
 
@@ -100,7 +100,7 @@ function love.update(dt)
 
   player:move(dt, function()
     player.movement:vibrate(dt)
-    player.physics:move(dt)
+    -- player.physics:move(dt)
     
     local direction = readPlayerInput()
     player.movement:go(direction)

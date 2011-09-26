@@ -6,8 +6,10 @@ require('entity_movement.lua')
 Entity = {
 }
 
-function Entity:new(position, scale, rotation)
-  local instance = {}
+function Entity:new(name, position, scale, rotation)
+  local instance = {
+    name = name
+  }
 
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
@@ -16,8 +18,8 @@ function Entity:new(position, scale, rotation)
 
   instance.model = EntityModel:new(position, scale, rotation)
   instance.view = EntityView:new(instance, instance.model)
+  instance.movement = EntityMovement:new(instance, instance.model)
   instance.physics = EntityPhysics:new(instance.model)
-  instance.movement = EntityMovement:new(instance.model)
 
   instance.parent = nil
   instance.children = {}
@@ -26,6 +28,10 @@ function Entity:new(position, scale, rotation)
 end
 
 -- Entity children methods
+function Entity:hasParent()
+  return self.parent ~= nil
+end
+
 function Entity:setParent(parent_entity)
   self.parent = parent_entity
 end
@@ -37,11 +43,15 @@ end
 
 -- Entity update methods
 function Entity:move(dt, block)
+  print("Moving entity: " .. self.name)
   self.movement:reset()
+  print(self.movement:toString() .. "\n")
 
   block()
 
+  print(self.movement:toString() .. "\n")
   self.movement:move(dt)
+  print(self.movement:toString() .. "\n")
   self.model:update(dt)
 end
 
