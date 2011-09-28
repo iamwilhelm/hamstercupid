@@ -27,8 +27,7 @@ end
 function EntityMovement:move(dt)
   self.model.acc = self.acc
   self.model.vel = self.model.vel + self.vel
-  -- self.model.pos = self.model.pos + (self.model.vel * dt)
-
+  self.model.pos = self.model.pos + self.pos
 end
 
 function EntityMovement:reset()
@@ -65,13 +64,8 @@ function EntityMovement:goToDestination(destination)
   self.acc = self.acc + acc
 end
 
-function EntityMovement:vibrate(dt)
-  -- local acc = self.entity.model.pos
-  local vel = (V:new(400, 240) - self.entity.model.pos) * 2
-  print("before vibrate")
-  print(self:toString() .. "\n")
+function EntityMovement:vibrate(dt, origin)
+  local vel = origin - self.entity.model.pos 
   self.vel = self.vel + vel
-  print("after vibrate")
-  print(self:toString() .. "\n")
 end
 

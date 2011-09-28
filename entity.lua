@@ -45,13 +45,8 @@ end
 function Entity:move(dt, block)
   print("Moving entity: " .. self.name)
   self.movement:reset()
-  print(self.movement:toString() .. "\n")
-
   block()
-
-  print(self.movement:toString() .. "\n")
   self.movement:move(dt)
-  print(self.movement:toString() .. "\n")
   self.model:update(dt)
 end
 

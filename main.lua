@@ -98,15 +98,20 @@ end
 function love.update(dt)
   readCameraInput()
 
+  -- TODO make every root entity move in the game
+  -- TODO make child entities move in the game relative to root
   player:move(dt, function()
-    player.movement:vibrate(dt)
-    -- player.physics:move(dt)
+    player.physics:move(dt)
     
     local direction = readPlayerInput()
     player.movement:go(direction)
 
     -- local waypoint = readPlayerWayPoint()
     -- player.movement:goToDestination(waypoint)
+  end)
+
+  shield:move(dt, function()
+    shield.movement:vibrate(dt, V:new(15, 7))
   end)
 end
 
