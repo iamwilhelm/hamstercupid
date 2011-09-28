@@ -6,8 +6,9 @@ EntityMovement = {
 
 function EntityMovement:new(entity, model)
   local instance = {
-    entity = entity,
+    entity = entity, -- TODO this is unnecessary
     model = model,
+    movements = {},
   }
   setmetatable(instance, self)
   self.__index = self
@@ -23,17 +24,38 @@ function EntityMovement:toString()
     self.pos:toString()
 end
 
+function EntityMovement:addMovement(block)
+  table.insert(self.movements, block)
+end
+
 -- Entity movement control methods
-function EntityMovement:update(dt)
-  self.model.acc = self.acc
-  self.model.vel = self.model.vel + self.vel
-  self.model.pos = self.model.pos + self.pos
+
+-- Provides the core engine for updating an entity's movements
+function EntityMovement:update(dt, block)
+  self:reset()
+
+  if block ~= nil then
+    block(dt)
+  end
+
+  for _, movement in ipairs(self.movements) do
+    movement(self, self.model, dt)
+  end
+  self:pushToModel()
 end
 
 function EntityMovement:reset()
   self.pos = V:new(0, 0)
   self.vel = V:new(0, 0)
   self.acc = V:new(0, 0)
+end
+
+function EntityMovement:pushToModel()
+  self.model.acc = self.acc
+
+  -- FIXME These two don't work as velocity changes accumulate over time
+  self.model.vel = self.model.vel + self.vel
+  self.model.pos = self.model.pos + self.pos
 end
 
 -- methods to move the character from user input

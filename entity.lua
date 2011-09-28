@@ -44,9 +44,7 @@ end
 -- Entity update methods
 function Entity:move(dt, block)
   print("Moving entity: " .. self.name)
-  self.movement:reset()
-  block()
-  self.movement:update(dt)
+  self.movement:update(dt, block)
   self.model:update(dt)
 end
 
