@@ -24,7 +24,7 @@ function EntityMovement:toString()
 end
 
 -- Entity movement control methods
-function EntityMovement:move(dt)
+function EntityMovement:update(dt)
   self.model.acc = self.acc
   self.model.vel = self.model.vel + self.vel
   self.model.pos = self.model.pos + self.pos
