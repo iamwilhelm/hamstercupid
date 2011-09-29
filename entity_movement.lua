@@ -6,7 +6,7 @@ EntityMovement = {
 
 function EntityMovement:new(entity, model)
   local instance = {
-    entity = entity, -- TODO this is unnecessary
+    entity = entity,
     model = model,
     movements = {},
   }
@@ -32,30 +32,34 @@ end
 
 -- Provides the core engine for updating an entity's movements
 function EntityMovement:update(dt, block)
+  -- reset the accumulated movements since last tick
   self:reset()
 
+  -- allow movements from every tick, such as player controls
   if block ~= nil then
     block(dt)
   end
 
+  -- do all the pre-declared movements for this entity
   for _, movement in ipairs(self.movements) do
     movement(self, self.model, dt)
   end
-  self:pushToModel()
+
+  -- push the updates to the model
+  self.model.acc = self.acc
+  self.model.vel = self.model.vel + self.vel -- FIXME These two don't work as velocity changes accumulate over time
+  self.model.pos = self.model.pos + self.pos
+
+  -- repeat for all child entities
+  for _, child_entity in ipairs(self.entity.children) do
+    child_entity:move(dt)
+  end
 end
 
 function EntityMovement:reset()
   self.pos = V:new(0, 0)
   self.vel = V:new(0, 0)
   self.acc = V:new(0, 0)
-end
-
-function EntityMovement:pushToModel()
-  self.model.acc = self.acc
-
-  -- FIXME These two don't work as velocity changes accumulate over time
-  self.model.vel = self.model.vel + self.vel
-  self.model.pos = self.model.pos + self.pos
 end
 
 -- methods to move the character from user input
@@ -87,7 +91,7 @@ function EntityMovement:goToDestination(destination)
 end
 
 function EntityMovement:vibrate(dt, origin)
-  local vel = origin - self.entity.model.pos 
+  local vel = origin - self.model.pos 
   self.vel = self.vel + vel
 end
 
