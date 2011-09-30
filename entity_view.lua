@@ -33,24 +33,21 @@ end
 -- Entity drawing methods
 
 function EntityView:draw()
-  local position = self.model.pos
-  local rotation = self.model.rot
-  local scale = self.model.scl
   local center = self:getCenter()
 
-  -- use unpack for position and center vectors
-  love.graphics.draw(self.image, 
-    position.x, position.y, 
-    rotation, scale, scale, 
-    center.x, center.y) 
+  -- transform coordinate system to entity's local coordinate system
+  self:transform(function()
+    -- TODO use unpack for position and center vectors
+    love.graphics.draw(self.image, 
+      0, 0, 0, 1, 1, center.x, center.y) 
 
-  for name, child_entity in pairs(self.entity.children) do
-    self:transform(function()
-      child_entity:draw()
-    end)
-  end
+    for name, child_entity in pairs(self.entity.children) do
+        child_entity:draw()
+    end
+  end)
+
   if not self.entity:hasParent() then
-    self:drawDebug()
+    -- self:drawDebug()
   end
 end
 
