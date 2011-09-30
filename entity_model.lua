@@ -7,7 +7,7 @@ function EntityModel:new(position, scale, rotation)
     pos = V:new(position.x, position.y), -- need to clone
     vel = V:new(0, 0),
     acc = V:new(0, 0),
-    scl = scale or 1,
+    scl = scale or V:new(1, 1),
     rot = rotation or 0,
   }
   setmetatable(instance, self)

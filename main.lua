@@ -76,7 +76,7 @@ function createMagician()
   helmet.view:setImage("resources/rpg/moonstone.tiara.gif")
   magician:addChild(helmet)
 
-  weapon = Entity:new("weapon", V:new(-24, 0), 1, math.rad(-10))
+  weapon = Entity:new("weapon", V:new(-24, 0), nil, math.rad(-10))
   weapon.view:setImage("resources/rpg/mythril.rod.gif")
   weapon.movement:addMovement(function(movement, model, dt)
     movement.acc = movement.acc + (V:new(-30, 0) - model.pos)
@@ -84,14 +84,14 @@ function createMagician()
   magician:addChild(weapon)
 
   -- TODO should be able to scale each axes separately, for perspective
-  shield = Entity:new("shield", V:new(15, 10), 1, math.rad(0))
+  shield = Entity:new("shield", V:new(15, 10), V:new(0.75, 1), math.rad(0))
   shield.view:setImage("resources/rpg/adamant.shield.gif")
   shield.movement:addMovement(function(movement, model, dt)
-    -- movement.acc = movement.acc + (V:new(15, 7) - model.pos) * 25
+    movement.acc = movement.acc + (V:new(0, 0) - model.pos)
   end)
   magician:addChild(shield)
 
-  cow = Entity:new("cow", V:new(40, 0), 1, math.rad(0))
+  cow = Entity:new("cow", V:new(40, 0), V:new(1, 1), math.rad(0))
   cow.view:setImage("resources/cow.png")
   cow.movement:addMovement(function(movement, model, dt)
     print("pos: " .. model.pos:toString())

@@ -60,7 +60,7 @@ function EntityView:transform(block)
 
   love.graphics.translate(self.model.pos.x, self.model.pos.y)
   love.graphics.rotate(self.model.rot)
-  love.graphics.scale(self.model.scl, self.model.scl)
+  love.graphics.scale(self.model.scl.x, self.model.scl.y)
   block()
 
   love.graphics.pop()
