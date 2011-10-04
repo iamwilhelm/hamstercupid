@@ -44,11 +44,13 @@ function EntityView:draw()
     for name, child_entity in pairs(self.entity.children) do
         child_entity:draw()
     end
-  end)
 
-  if not self.entity:hasParent() then
-    -- self:drawDebug()
-  end
+    self:drawMotionVectors()
+
+    if not self.entity:hasParent() then
+      -- self:drawDebug()
+    end
+  end)
 end
 
 -- private to transform coordinate to draw the child entity
@@ -68,4 +70,14 @@ function EntityView:drawDebug()
   love.graphics.print(self.model.vel:toString(), self.model.pos.x, self.model.pos.y - 14)
   love.graphics.print(self.model.acc:toString(), self.model.pos.x, self.model.pos.y - 14 * 2)
 end
+
+function EntityView:drawMotionVectors()
+  local r, g, b, a = love.graphics.getColor()
+  love.graphics.setColor(0, 200, 0)
+  love.graphics.line(0, 0, self.model.acc.x, self.model.acc.y)
+  love.graphics.setColor(200, 0, 0)
+  love.graphics.line(0, 0, self.model.vel.x, self.model.vel.y)
+  love.graphics.setColor(r, g, b, a)
+end
+
 
