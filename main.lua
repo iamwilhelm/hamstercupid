@@ -78,29 +78,19 @@ function createMagician()
 
   weapon = Entity:new("weapon", V:new(-24, 0), nil, math.rad(-10))
   weapon.view:setImage("resources/rpg/mythril.rod.gif")
-  weapon.movement:addMovement(function(movement, model, dt)
-    movement.acc = movement.acc + (V:new(-30, 0) - model.pos)
-  end)
+  weapon.movement:addMovement(EntityMovement.vibrate(V:new(-30, 0)))
   magician:addChild(weapon)
 
   -- TODO should be able to scale each axes separately, for perspective
   shield = Entity:new("shield", V:new(15, 10), V:new(0.75, 1), math.rad(0))
   shield.view:setImage("resources/rpg/adamant.shield.gif")
   shield.movement:addMovement(function(movement, model, dt)
-    movement.acc = movement.acc + (V:new(0, 0) - model.pos)
   end)
   magician:addChild(shield)
 
-  cow = Entity:new("cow", V:new(40, 0), V:new(1, 1), math.rad(0))
+  cow = Entity:new("cow", V:new(0, 30), V:new(1, 1), math.rad(0))
   cow.view:setImage("resources/cow.png")
-  cow.movement:addMovement(function(movement, model, dt)
-    print("pos: " .. model.pos:toString())
-    local centripetal = V:new(0, 0) - model.pos
-    local acc = V:new(model.pos.x, model.pos.y - 40) - model.pos
-    print("cen: " .. centripetal:toString())
-    print("acc: " .. acc:toString())
-    movement.acc = movement.acc + centripetal -- + acc
-  end)
+  cow.movement:addMovement(EntityMovement.vibrate(V:new(0, 0)))
   shield:addChild(cow)
 
   return magician

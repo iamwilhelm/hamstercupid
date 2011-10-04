@@ -4,6 +4,32 @@ EntityMovement = {
   accel_max = 500,
 }
 
+function EntityMovement.vibrate(origin)
+  return function(self, movement, model, dt)
+    local vel = origin - self.model.pos 
+    self.vel = self.vel + vel
+  end
+end
+
+-- FIXME not yet working correctly
+function EntityMovement.orbit()
+  return function(self, movement, model, dt)
+    local axis_of_rotation = math.rad(0.5) / dt
+    local radius = model.pos
+    print("dt: " .. dt)
+    print("axis: " .. axis_of_rotation)
+    print("rad: " .. radius:toString())
+    local tangential = V:new(-axis_of_rotation * radius.y, axis_of_rotation * radius.x) 
+    local centripetal = radius:norm() * -tangential:r() 
+    print("tang: " .. tangential:toString())
+    print("cent: " .. centripetal:toString())
+    print("dot: " .. tangential:dot(centripetal))
+
+    movement.acc = movement.acc + tangential
+    movement.acc = movement.acc + centripetal
+  end
+end
+
 function EntityMovement:new(entity, model)
   -- The coordinate system for movement is with respect to the entity, 
   -- unlike in the model, the coordinate system is with respect to the parent entity
@@ -95,8 +121,4 @@ function EntityMovement:goToDestination(destination)
   self.acc = self.acc + acc
 end
 
-function EntityMovement:vibrate(dt, origin)
-  local vel = origin - self.model.pos 
-  self.vel = self.vel + vel
-end
 
