@@ -5,9 +5,14 @@ EntityMovement = {
 }
 
 function EntityMovement:new(entity, model)
+  -- The coordinate system for movement is with respect to the entity, 
+  -- unlike in the model, the coordinate system is with respect to the parent entity
   local instance = {
     entity = entity,
     model = model,
+    pos = V:new(0, 0),
+    vel = V:new(0, 0),
+    acc = V:new(0, 0),
     movements = {},
   }
   setmetatable(instance, self)

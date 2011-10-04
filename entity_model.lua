@@ -3,6 +3,8 @@ require('vector.lua')
 EntityModel = {}
 
 function EntityModel:new(position, scale, rotation)
+  -- coordinate system is wrt the parent entity or for the root entity, 
+  -- it's the world coordinates
   local instance = {
     pos = V:new(position.x, position.y), -- need to clone
     vel = V:new(0, 0),
