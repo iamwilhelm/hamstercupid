@@ -4,29 +4,17 @@ EntityMovement = {
   accel_max = 500,
 }
 
-function EntityMovement.vibrate(origin)
+EntityMovement.vibrate = function(origin)
   return function(movement, model, dt)
-    local vel = origin - model.pos 
-    movement.vel = movement.vel + vel
+    model.angvel = math.rad(10) -- takes six seconds per revolution
+    model.angpos = (model.angpos + model.angvel * dt) % math.rad(360)
+    local ypos = 5 * math.sin(model.angpos)
+    movement.pos = V:new(0, ypos)
   end
 end
 
--- FIXME not yet working correctly
-function EntityMovement.orbit()
-  return function(self, movement, model, dt)
-    local axis_of_rotation = math.rad(0.5) / dt
-    local radius = model.pos
-    print("dt: " .. dt)
-    print("axis: " .. axis_of_rotation)
-    print("rad: " .. radius:toString())
-    local tangential = V:new(-axis_of_rotation * radius.y, axis_of_rotation * radius.x) 
-    local centripetal = radius:norm() * -tangential:r() 
-    print("tang: " .. tangential:toString())
-    print("cent: " .. centripetal:toString())
-    print("dot: " .. tangential:dot(centripetal))
-
-    movement.acc = movement.acc + tangential
-    movement.acc = movement.acc + centripetal
+EntityMovement.orbit = function()
+  return function(movement, model, dt)
   end
 end
 
@@ -77,10 +65,8 @@ function EntityMovement:update(dt, block)
   end
 
   -- push the updates to the model
-  self.model.acc = self.acc
-  self.model.vel = self.model.vel + self.vel -- FIXME These two don't work as velocity changes accumulate over time
-  self.model.pos = self.model.pos + self.pos
-
+  self.model:updateByMovement(self.acc, self.vel, self.pos)
+  
   -- repeat for all child entities
   for _, child_entity in ipairs(self.entity.children) do
     child_entity:move(dt)

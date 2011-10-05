@@ -78,7 +78,7 @@ function createMagician()
 
   weapon = Entity:new("weapon", V:new(-24, 0), nil, math.rad(-10))
   weapon.view:setImage("resources/rpg/mythril.rod.gif")
-  weapon.movement:addMovement(EntityMovement.vibrate(V:new(-30, 0)))
+  -- weapon.movement:addMovement(EntityMovement.vibrate(V:new(-24, 0)))
   magician:addChild(weapon)
 
   -- TODO should be able to scale each axes separately, for perspective
@@ -90,8 +90,7 @@ function createMagician()
 
   cow = Entity:new("cow", V:new(0, 30), V:new(1, 1), math.rad(0))
   cow.view:setImage("resources/cow.png")
-  cow.movement:addMovement(function(movement, model, dt)
-  end)
+  cow.movement:addMovement(EntityMovement.vibrate(V:new(0, 30)))
   shield:addChild(cow)
 
   return magician
