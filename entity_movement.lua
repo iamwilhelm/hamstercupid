@@ -5,9 +5,9 @@ EntityMovement = {
 }
 
 function EntityMovement.vibrate(origin)
-  return function(self, movement, model, dt)
-    local vel = origin - self.model.pos 
-    self.vel = self.vel + vel
+  return function(movement, model, dt)
+    local vel = origin - model.pos 
+    movement.vel = movement.vel + vel
   end
 end
 

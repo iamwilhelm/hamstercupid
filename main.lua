@@ -90,7 +90,8 @@ function createMagician()
 
   cow = Entity:new("cow", V:new(0, 30), V:new(1, 1), math.rad(0))
   cow.view:setImage("resources/cow.png")
-  cow.movement:addMovement(EntityMovement.vibrate(V:new(0, 0)))
+  cow.movement:addMovement(function(movement, model, dt)
+  end)
   shield:addChild(cow)
 
   return magician
