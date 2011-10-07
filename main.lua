@@ -1,6 +1,7 @@
 require('vector.lua')
 require('entity.lua')
 require('camera.lua')
+require('motion.lua')
 
 -- Read player input
 
@@ -87,10 +88,10 @@ function createMagician()
   shield.view:setImage("resources/rpg/adamant.shield.gif")
   magician:addChild(shield)
 
-  cow = Entity:new("cow", V:new(0, 0), V:new(1, 1), math.rad(0))
+  cow = Entity:new("cow", V:new(50, 0), V:new(4 / 3, 1), math.rad(0))
   cow.view:setImage("resources/cow.png")
   cow.movement:addMovement(Motion.wiggle(50, 1))
-  cow.movement:addMovement(Motion.jitter())
+  cow.movement:addMovement(Motion.waggle(50, 1, math.rad(0)))
   shield:addChild(cow)
 
   return magician
