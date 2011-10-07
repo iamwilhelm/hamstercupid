@@ -72,7 +72,7 @@ end
 function createMagician()
   magician = Entity:new("magician", V:new(400, 200))
   magician.view:setImage("resources/rpg/magician.front.gif")
-  -- magician.movement:addMovement(EntityMovement.jitter())
+  magician.movement:addMovement(Motion.jitter(10))
 
   helmet = Entity:new("helmet", V:new(-2, -24))
   helmet.view:setImage("resources/rpg/moonstone.tiara.gif")
@@ -112,8 +112,8 @@ function love.update(dt)
   player:move(dt, function()
     player.physics:move(dt)
     
-    -- local direction = readPlayerInput()
-    -- Motion.go(dt, direction)
+    local direction = readPlayerInput()
+    player.movement:go(dt, direction)
 
     -- local waypoint = readPlayerWayPoint()
     -- player.movement:goToDestination(waypoint)

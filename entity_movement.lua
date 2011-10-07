@@ -1,7 +1,6 @@
 require('vector.lua')
 
 EntityMovement = {
-  accel_max = 500,
 }
 
 function EntityMovement:new(entity, model)
@@ -27,6 +26,27 @@ function EntityMovement:toString()
     self.vel:toString() .. ", " ..
     self.pos:toString()
 end
+
+function EntityMovement:go(dt, direction)
+  local acc = V:new(0, 0)
+  if (direction.x > 0) then
+    self:addToAcceleration(V:new(Motion.accel_max, 0))
+  elseif (direction.x < 0) then
+    self:addToAcceleration(V:new(-Motion.accel_max, 0))
+  else
+    -- acc.x = 0
+  end
+
+  if (direction.y > 0) then
+    self:addToAcceleration(V:new(0, Motion.accel_max))
+  elseif (direction.y < 0) then
+    self:addToAcceleration(V:new(0, -Motion.accel_max))
+  else
+    -- acc.y = 0
+  end
+end
+
+
 
 -- Entity movement control methods
 function EntityMovement:addMovement(block)

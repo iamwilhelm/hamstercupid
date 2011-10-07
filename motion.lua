@@ -1,6 +1,8 @@
 require('vector.lua')
 
-Motion = {}
+Motion = {
+  accel_max = 500,
+}
 
 -- create anonymous motions
 Motion.createMove = function(locals, block)
@@ -38,9 +40,9 @@ Motion.waggle = function(amplitude, period, phase)
     end)
 end
 
-Motion.jitter = function(amplitude, secs_per_cycle)
+Motion.jitter = function(amplitude)
   return function(movement, model, dt)
-    movement:addToVelocity(V:new(math.random(-5, 5), 0))
+    movement:addToPosition(V:new(math.random(-amplitude, amplitude), 0))
   end
 end
 
@@ -54,23 +56,23 @@ Motion.orbit = function(amplitude, secs_per_cycle, phase)
 end
 
 -- methods to move the character from user input
-function Motion:go(dt, direction)
+function Motion.go(dt, direction)
   return function(movement, model, dt)
     local acc = V:new(0, 0)
     if (direction.x > 0) then
-      acc.x = self.accel_max
+      movement:addToAcceleration(Motion.accel_max, 0)
     elseif (direction.x < 0) then
-      acc.x = -self.accel_max
+      movement:addToAccerlation(-Motion.accel_max, 0)
     else
-      acc.x = 0
+      -- acc.x = 0
     end
 
     if (direction.y > 0) then
-      acc.y = self.accel_max
+      movement:addToAccerlation(0, Motion.accel_max)
     elseif (direction.y < 0) then
-      acc.y = -self.accel_max
+      movement:addToAccerlation(0, -Motion.accel_max)
     else
-      acc.y = 0
+      -- acc.y = 0
     end
   end
 end
