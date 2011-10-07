@@ -51,7 +51,7 @@ end
 -- Provides the core engine for updating an entity's motions
 function EntityMovement:update(dt, block)
   -- reset the accumulated motions since last tick
-  self:reset()
+  self:_reset()
 
   -- allow motions from every tick, such as player controls
   if block ~= nil then
@@ -64,7 +64,7 @@ function EntityMovement:update(dt, block)
   end
 
   -- push the updates to the model
-  self:pushToModel(dt)
+  self:_pushToModel(dt)
   
   -- repeat for all child entities
   for _, child_entity in ipairs(self.entity.children) do
@@ -72,14 +72,14 @@ function EntityMovement:update(dt, block)
   end
 end
 
-function EntityMovement:reset()
+function EntityMovement:_reset()
   self.accumulated_acc = V:new(0, 0)
   self.accumulated_vel = V:new(0, 0)
   self.accumulated_pos = V:new(0, 0)
 end
 
 -- update velocity and position based on all the movement
-function EntityMovement:pushToModel(dt)
+function EntityMovement:_pushToModel(dt)
   self.model.acc = self.accumulated_acc
   self.model.vel = self.model.vel + self.accumulated_vel + (self.model.acc * dt)
   self.model.pos = self.model.pos + self.accumulated_pos + (self.model.vel * dt)
