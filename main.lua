@@ -71,6 +71,7 @@ end
 function createMagician()
   magician = Entity:new("magician", V:new(400, 200))
   magician.view:setImage("resources/rpg/magician.front.gif")
+  -- magician.movement:addMovement(EntityMovement.jitter())
 
   helmet = Entity:new("helmet", V:new(-2, -24))
   helmet.view:setImage("resources/rpg/moonstone.tiara.gif")
@@ -78,19 +79,18 @@ function createMagician()
 
   weapon = Entity:new("weapon", V:new(-24, 0), nil, math.rad(-10))
   weapon.view:setImage("resources/rpg/mythril.rod.gif")
-  -- weapon.movement:addMovement(EntityMovement.vibrate(V:new(-24, 0)))
+  -- weapon.movement:addMovement(Motion.wiggle(30, 1))
   magician:addChild(weapon)
 
   -- TODO should be able to scale each axes separately, for perspective
   shield = Entity:new("shield", V:new(15, 10), V:new(0.75, 1), math.rad(0))
   shield.view:setImage("resources/rpg/adamant.shield.gif")
-  shield.movement:addMovement(function(movement, model, dt)
-  end)
   magician:addChild(shield)
 
-  cow = Entity:new("cow", V:new(0, 30), V:new(1, 1), math.rad(0))
+  cow = Entity:new("cow", V:new(0, 0), V:new(1, 1), math.rad(0))
   cow.view:setImage("resources/cow.png")
-  cow.movement:addMovement(EntityMovement.vibrate(V:new(0, 30)))
+  cow.movement:addMovement(Motion.wiggle(50, 1))
+  cow.movement:addMovement(Motion.jitter())
   shield:addChild(cow)
 
   return magician
@@ -111,8 +111,8 @@ function love.update(dt)
   player:move(dt, function()
     player.physics:move(dt)
     
-    local direction = readPlayerInput()
-    player.movement:go(direction)
+    -- local direction = readPlayerInput()
+    -- Motion.go(dt, direction)
 
     -- local waypoint = readPlayerWayPoint()
     -- player.movement:goToDestination(waypoint)
