@@ -72,7 +72,7 @@ end
 function createMagician()
   magician = Entity:new("magician", V:new(400, 200))
   magician.view:setSpriteMap("resources/rpg/magician.png", 48, 66)
-  magician.view:setAnimation("walk.front", 0, 6, 1)
+  magician.view:setAnimation("walk.front", 1, 6, 1)
   magician.model.state = "walk.front"
   -- magician.movement:addMovement(Motion.jitter(10))
 
