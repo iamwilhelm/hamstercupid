@@ -131,5 +131,7 @@ function love.draw()
     end
     map:draw()
   end)
+
+  love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
 end
 
