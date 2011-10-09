@@ -45,6 +45,7 @@ end
 function Entity:move(dt, block)
   print("Moving entity: " .. self.name)
   self.movement:update(dt, block)
+  self.view:update(dt)
 end
 
 -- Entity view methods (to be separated later)

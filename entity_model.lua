@@ -11,6 +11,7 @@ function EntityModel:new(position, scale, rotation)
     acc = V:new(0, 0),
     scl = scale or V:new(1, 1),
     rot = rotation or 0,
+    state = "stand",
   }
   setmetatable(instance, self)
   self.__index = self

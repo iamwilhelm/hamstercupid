@@ -71,29 +71,32 @@ end
 
 function createMagician()
   magician = Entity:new("magician", V:new(400, 200))
-  magician.view:setImage("resources/rpg/magician.front.gif")
-  magician.movement:addMovement(Motion.jitter(10))
+  magician.view:setSpriteMap("resources/rpg/magician.png", 48, 66)
+  magician.view:setAnimation("walk.front", 0, 6, 1)
+  magician.model.state = "walk.front"
+  -- magician.movement:addMovement(Motion.jitter(10))
 
-  helmet = Entity:new("helmet", V:new(-2, -24))
-  helmet.view:setImage("resources/rpg/moonstone.tiara.gif")
-  magician:addChild(helmet)
 
-  weapon = Entity:new("weapon", V:new(-24, 0), nil, math.rad(-10))
-  weapon.view:setImage("resources/rpg/mythril.rod.gif")
-  -- weapon.movement:addMovement(Motion.wiggle(30, 1))
-  magician:addChild(weapon)
-
-  -- TODO should be able to scale each axes separately, for perspective
-  shield = Entity:new("shield", V:new(15, 10), V:new(0.75, 1), math.rad(0))
-  shield.view:setImage("resources/rpg/adamant.shield.gif")
-  magician:addChild(shield)
-
-  cow = Entity:new("cow", V:new(50, 0), V:new(4 / 3, 1), math.rad(0))
-  cow.view:setImage("resources/cow.png")
-  cow.movement:addMovement(Motion.wiggle(50, 1))
-  cow.movement:addMovement(Motion.waggle(50, 1, math.rad(0)))
-  shield:addChild(cow)
-
+--  helmet = Entity:new("helmet", V:new(-2, -24))
+--  helmet.view:setImage("resources/rpg/moonstone.tiara.gif")
+--  magician:addChild(helmet)
+--
+--  weapon = Entity:new("weapon", V:new(-24, 0), nil, math.rad(-10))
+--  weapon.view:setImage("resources/rpg/mythril.rod.gif")
+--  -- weapon.movement:addMovement(Motion.wiggle(30, 1))
+--  magician:addChild(weapon)
+--
+--  -- TODO should be able to scale each axes separately, for perspective
+--  shield = Entity:new("shield", V:new(15, 10), V:new(0.75, 1), math.rad(0))
+--  shield.view:setImage("resources/rpg/adamant.shield.gif")
+--  magician:addChild(shield)
+--
+--  cow = Entity:new("cow", V:new(50, 0), V:new(4 / 3, 1), math.rad(0))
+--  cow.view:setImage("resources/cow.png")
+--  cow.movement:addMovement(Motion.wiggle(50, 1))
+--  cow.movement:addMovement(Motion.waggle(50, 1, math.rad(90)))
+--  shield:addChild(cow)
+ 
   return magician
 end
 

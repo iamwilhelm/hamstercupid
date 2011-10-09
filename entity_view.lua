@@ -8,9 +8,14 @@ function EntityView:new(entity, model)
   local instance = {
     entity = entity,
     model = model,
-    image = nil,
+
+    spriteMap = nil,
+    spriteBatch = nil,
     width = nil,
     height = nil,
+    animations = {},
+    animationTime = 0,
+    periods = {},
  }
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
@@ -20,14 +25,35 @@ function EntityView:new(entity, model)
   return instance
 end
 
-function EntityView:setImage(filepath)
-  self.image = love.graphics.newImage(filepath)
-  self.width = self.image:getWidth()
-  self.height = self.image:getHeight()
+function EntityView:setSpriteMap(filepath, width, height)
+  self.spriteMap = love.graphics.newImage(filepath)
+  self.width = width
+  self.height = height
+end
+
+function EntityView:setAnimation(state, spriteMapRow, frames, period)
+  self.animations[state] = {}
+  for frame = 0, frames - 1 do
+    self.animations[state][frame] = love.graphics.newQuad(self.width * frame, self.height * spriteMapRow, 
+      self.width, self.height, self.spriteMap:getWidth(), self.spriteMap:getHeight())
+  end
+  self.periods[state] = period
+  self.spriteBatch = love.graphics.newSpriteBatch(self.spriteMap, self.frames)
+end
+
+function EntityView:getNumOfFrames(state)
+  return table.getn(self.animations[state])
 end
 
 function EntityView:getCenter()
   return V:new(self.width / 2, self.height / 2)
+end
+
+function EntityView:update(dt)
+  self.spriteBatch:clear()
+  self.animationTime = (self.animationTime + dt) % self.periods[self.model.state]
+  local index = math.floor(self.animationTime / self.periods[self.model.state] * self:getNumOfFrames(self.model.state))
+  self.spriteBatch:addq(self.animations[self.model.state][index], 0, 0)
 end
 
 -- Entity drawing methods
@@ -38,7 +64,7 @@ function EntityView:draw()
   -- transform coordinate system to entity's local coordinate system
   self:transform(function()
     -- TODO use unpack for position and center vectors
-    love.graphics.draw(self.image, 
+    love.graphics.draw(self.spriteBatch, 
       0, 0, 0, 1, 1, center.x, center.y) 
 
     for name, child_entity in pairs(self.entity.children) do
