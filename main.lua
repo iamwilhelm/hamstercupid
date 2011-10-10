@@ -79,8 +79,8 @@ function createPerson()
     end)
 
     view:animation("walk.down", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
-      for col = 3, 5 do animation:frame(0, col) end
-      for col = 0, 2 do animation:frame(1, col) end
+      animation:frame(0, 3, { cols = 3 })
+      animation:frame(1, 0, { cols = 3 })
     end)
 
     view:animation("stand.up", 40, 32, {}, function(animation)
@@ -88,8 +88,8 @@ function createPerson()
     end)
 
     view:animation("walk.up", 40, 32, {}, function(animation)
-      for col = 3, 5 do animation:frame(2, col) end
-      for col = 0, 2 do animation:frame(3, col) end
+      animation:frame(2, 3, { cols = 3 })
+      animation:frame(3, 0, { cols = 3 })
     end)
   end)
 

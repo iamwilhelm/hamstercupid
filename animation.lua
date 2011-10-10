@@ -40,15 +40,17 @@ end
 
 function Animation:frame(row, col, options)
   options = options or {}
-  local frame_index = self:frameCount() + 1
-  local x = self.width * col + self.offset.x
-  local y = self.height * row + self.offset.y
+  options["rows"] = options["rows"] or 1
+  options["cols"] = options["cols"] or 1
 
-  for i = 0, self:frameCount() do
-    print(self.frames[i])
+  for rowrun = 1, options["rows"] do
+    for colrun = 1, options["cols"] do
+      local x = self.width * (col + colrun - 1) + self.offset.x
+      local y = self.height * (row + rowrun - 1) + self.offset.y
+      print(x .. ", " .. y)
+      table.insert(self.frames, love.graphics.newQuad(x, y, self.width, self.height, self.ref_width, self.ref_height))
+    end
   end
-  print("---")
-  table.insert(self.frames, love.graphics.newQuad(x, y, self.width, self.height, self.ref_width, self.ref_height))
 end
 
 function Animation:frameCount()
