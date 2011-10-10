@@ -1,12 +1,14 @@
 --  A custom vector class
 
 Vector = {
-   identity = "Vector class",
+   name = "Vector",
 }
 V = Vector
 
 function Vector:new(x, y)
-   local instance = {}
+   local instance = {
+     klass = Vector,
+   }
    setmetatable(instance, self)
    self.__index = self
 

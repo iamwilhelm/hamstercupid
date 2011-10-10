@@ -17,17 +17,21 @@ require('vector.lua')
 --  cow.movement:addMovement(Motion.waggle(50, 1, math.rad(90)))
 --  shield:addChild(cow)
 EntityMovement = {
+  name = "EntityMovement",
 }
 
 function EntityMovement:new(entity, model)
   -- The coordinate system for movement is with respect to the entity, 
   -- unlike in the model, the coordinate system is with respect to the parent entity
   local instance = {
+    klass = EntityMovement,
     entity = entity,
     model = model,
+
     accumulated_acc = V:new(0, 0),
     accumulated_vel = V:new(0, 0),
     accumulated_pos = V:new(0, 0),
+
     motions = {},
   }
   setmetatable(instance, self)

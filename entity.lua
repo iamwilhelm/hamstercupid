@@ -4,11 +4,12 @@ require('entity_physics.lua')
 require('entity_movement.lua')
 
 Entity = {
+  name = "Entity",
 }
 
 function Entity:new(name, position, scale, rotation)
   local instance = {
-    name = name
+    klass = Entity,
   }
 
   -- the metatable of the new obj is Entity(self)

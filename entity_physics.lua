@@ -1,9 +1,13 @@
 require('vector.lua')
 
-EntityPhysics = {}
+EntityPhysics = {
+  name = "EntityPhysics",
+}
 
 function EntityPhysics:new(model)
   local instance = {
+    klass = EntityPhysics,
+
     model = model,
   }
   setmetatable(instance, self)

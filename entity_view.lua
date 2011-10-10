@@ -2,11 +2,12 @@ require('vector.lua')
 require('animation.lua')
 
 EntityView = {
-  identity = "EntityView Class"
+  name = "EntityView"
 }
 
 function EntityView:new(entity, model)
   local instance = {
+    klass = EntityView,
     entity = entity,
     model = model,
 
@@ -56,7 +57,6 @@ end
 function EntityView:update(dt)
   self.spriteBatch:clear()
   self:currentAnimation():tickAnimation(dt)
-  print(self:currentAnimation():frameIndex())
   self.spriteBatch:addq(self:currentAnimation():getFrame(), 0, 0)
 end
 
