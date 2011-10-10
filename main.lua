@@ -5,7 +5,7 @@ require('motion.lua')
 
 -- Read player input
 
-function readPlayerInput()
+function readPlayerInput(entity)
   local direction = V:new(0, 0)
 
   if love.keyboard.isDown('d') then
@@ -16,9 +16,11 @@ function readPlayerInput()
   end
   if love.keyboard.isDown('s') then
     direction.y = 1
+    entity.model.state = "walk.front"
   end
   if love.keyboard.isDown('w') then
     direction.y = -1
+    entity.model.state = "walk.back"
   end
 
   return direction
@@ -84,6 +86,11 @@ function createPerson()
     view:animation("stand.back", 40, 32, {}, function(animation)
       animation:frame(0, 2)
     end)
+
+    view:animation("walk.back", 40, 32, {}, function(animation)
+      for col = 3, 5 do animation:frame(2, col) end
+      for col = 0, 2 do animation:frame(3, col) end
+    end)
   end)
 
   person.model.state = "walk.front"
@@ -106,7 +113,7 @@ function love.update(dt)
   player:move(dt, function()
     player.physics:move(dt)
     
-    local direction = readPlayerInput()
+    local direction = readPlayerInput(player)
     player.movement:go(dt, direction)
 
     -- local waypoint = readPlayerWayPoint()
