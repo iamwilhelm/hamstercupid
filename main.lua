@@ -69,41 +69,32 @@ function createCow()
   return cow
 end
 
-function createMagician()
-  magician = Entity:new("magician", V:new(400, 200))
-  magician.view:setSpriteMap("resources/rpg/magician.png", 48, 66)
-  magician.view:setAnimation("walk.front", 1, 6, 1)
-  magician.model.state = "walk.front"
-  -- magician.movement:addMovement(Motion.jitter(10))
+function createPerson()
+  local person = Entity:new("magician", V:new(400, 200))
+  person.view:film("resources/dodgeball/wildlynx.gif", function(view)
+    view:animation("stand.front", 40, 32, {}, function(animation)
+      animation:frame(0, 0)
+    end)
 
+    view:animation("walk.front", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
+      for col = 3, 5 do animation:frame(0, col) end
+      for col = 0, 2 do animation:frame(1, col) end
+    end)
 
---  helmet = Entity:new("helmet", V:new(-2, -24))
---  helmet.view:setImage("resources/rpg/moonstone.tiara.gif")
---  magician:addChild(helmet)
---
---  weapon = Entity:new("weapon", V:new(-24, 0), nil, math.rad(-10))
---  weapon.view:setImage("resources/rpg/mythril.rod.gif")
---  -- weapon.movement:addMovement(Motion.wiggle(30, 1))
---  magician:addChild(weapon)
---
---  -- TODO should be able to scale each axes separately, for perspective
---  shield = Entity:new("shield", V:new(15, 10), V:new(0.75, 1), math.rad(0))
---  shield.view:setImage("resources/rpg/adamant.shield.gif")
---  magician:addChild(shield)
---
---  cow = Entity:new("cow", V:new(50, 0), V:new(4 / 3, 1), math.rad(0))
---  cow.view:setImage("resources/cow.png")
---  cow.movement:addMovement(Motion.wiggle(50, 1))
---  cow.movement:addMovement(Motion.waggle(50, 1, math.rad(90)))
---  shield:addChild(cow)
+    view:animation("stand.back", 40, 32, {}, function(animation)
+      animation:frame(0, 2)
+    end)
+  end)
+
+  person.model.state = "walk.front"
  
-  return magician
+  return person
 end
 
 function love.load()
   entities = {}
 
-  player = createMagician()
+  player = createPerson()
   table.insert(entities, player)
 end
 

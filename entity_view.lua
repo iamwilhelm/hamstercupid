@@ -1,4 +1,5 @@
 require('vector.lua')
+require('animation.lua')
 
 EntityView = {
   identity = "EntityView Class"
@@ -11,11 +12,8 @@ function EntityView:new(entity, model)
 
     spriteMap = nil,
     spriteBatch = nil,
-    width = nil,
-    height = nil,
     animations = {},
     animationTime = 0,
-    periods = {},
  }
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
@@ -25,41 +23,47 @@ function EntityView:new(entity, model)
   return instance
 end
 
-function EntityView:setSpriteMap(filepath, width, height)
+function EntityView:film(filepath, block)
   self.spriteMap = love.graphics.newImage(filepath)
-  self.width = width
-  self.height = height
+  block(self)
 end
 
-function EntityView:setAnimation(state, spriteMapRow, frames, period)
-  self.animations[state] = {}
-  for frame = 0, frames - 1 do
-    self.animations[state][frame] = love.graphics.newQuad(self.width * frame, self.height * spriteMapRow, 
-      self.width, self.height, self.spriteMap:getWidth(), self.spriteMap:getHeight())
-  end
-  self.periods[state] = period
-  self.spriteBatch = love.graphics.newSpriteBatch(self.spriteMap, self.frames)
+function EntityView:animation(state, width, height, options, block)
+  -- TODO it might be better to ahve width and height in options, and just pass that directly into animation
+  -- by also merging the reference dimensions as well. Lua doesn't have a table merge, but a:
+  -- for k, v in pairs(second_table) do first_table[k] = v end
+  local animation = Animation:new()
+  animation:setDimension(width, height)
+  animation:setReferenceDimension(self.spriteMap:getWidth(), self.spriteMap:getHeight())
+  animation:setOffset(options["offset"])
+  animation:setPeriod(options["period"])
+
+  block(animation) 
+  
+  self.animations[state] = animation
+  -- The spriteBatch holds at most one quad at a time since we're animating
+  self.spriteBatch = love.graphics.newSpriteBatch(self.spriteMap, 1)
 end
 
-function EntityView:getNumOfFrames(state)
-  return table.getn(self.animations[state])
+function EntityView:currentAnimation()
+  return self.animations[self.model.state]
 end
 
 function EntityView:getCenter()
-  return V:new(self.width / 2, self.height / 2)
+  return self:currentAnimation():getCenter()
 end
 
 function EntityView:update(dt)
   self.spriteBatch:clear()
-  self.animationTime = (self.animationTime + dt) % self.periods[self.model.state]
-  local index = math.floor(self.animationTime / self.periods[self.model.state] * self:getNumOfFrames(self.model.state))
-  self.spriteBatch:addq(self.animations[self.model.state][index], 0, 0)
+  self:currentAnimation():tickAnimation(dt)
+  print(self:currentAnimation():frameIndex())
+  self.spriteBatch:addq(self:currentAnimation():getFrame(), 0, 0)
 end
 
 -- Entity drawing methods
 
 function EntityView:draw()
-  local center = self:getCenter()
+  local center = self:currentAnimation():getCenter()
 
   -- transform coordinate system to entity's local coordinate system
   self:transform(function()
