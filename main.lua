@@ -16,11 +16,11 @@ function readPlayerInput(entity)
   end
   if love.keyboard.isDown('s') then
     direction.y = 1
-    entity.model.state = "walk.front"
+    entity.model.state = "walk.down"
   end
   if love.keyboard.isDown('w') then
     direction.y = -1
-    entity.model.state = "walk.back"
+    entity.model.state = "walk.up"
   end
 
   return direction
@@ -39,10 +39,10 @@ function readCameraInput()
   if love.keyboard.isDown('up') then
     camera:pan(V:new(0, -20))
   end
-  if love.keyboard.isDown('[') then
+  if love.keyboard.isDown(']') then
     camera:zoom(1.05)
   end
-  if love.keyboard.isDown(']') then
+  if love.keyboard.isDown('[') then
     camera:zoom(1 / 1.05)
   end
 end
@@ -72,28 +72,28 @@ function createCow()
 end
 
 function createPerson()
-  local person = Entity:new("magician", V:new(400, 200))
+  local person = Entity:new("person", V:new(400, 200))
   person.view:film("resources/dodgeball/wildlynx.gif", function(view)
-    view:animation("stand.front", 40, 32, {}, function(animation)
+    view:animation("stand.down", 40, 32, {}, function(animation)
       animation:frame(0, 0)
     end)
 
-    view:animation("walk.front", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
+    view:animation("walk.down", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
       for col = 3, 5 do animation:frame(0, col) end
       for col = 0, 2 do animation:frame(1, col) end
     end)
 
-    view:animation("stand.back", 40, 32, {}, function(animation)
+    view:animation("stand.up", 40, 32, {}, function(animation)
       animation:frame(0, 2)
     end)
 
-    view:animation("walk.back", 40, 32, {}, function(animation)
+    view:animation("walk.up", 40, 32, {}, function(animation)
       for col = 3, 5 do animation:frame(2, col) end
       for col = 0, 2 do animation:frame(3, col) end
     end)
   end)
 
-  person.model.state = "walk.front"
+  person.model.state = "walk.down"
  
   return person
 end
