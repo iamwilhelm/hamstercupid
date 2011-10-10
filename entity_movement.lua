@@ -1,5 +1,21 @@
 require('vector.lua')
 
+--  magician = Entity:new("magician", V:new(200, 200)
+--
+--  helmet = Entity:new("helmet", V:new(-2, -24))
+--  magician:addChild(helmet)
+--
+--  weapon = Entity:new("weapon", V:new(-24, 0), nil, math.rad(-10))
+--  weapon.movement:addMovement(Motion.wiggle(30, 1))
+--  magician:addChild(weapon)
+--
+--  shield = Entity:new("shield", V:new(15, 10), V:new(0.75, 1), math.rad(0))
+--  magician:addChild(shield)
+--
+--  cow = Entity:new("cow", V:new(50, 0), V:new(4 / 3, 1), math.rad(0))
+--  cow.movement:addMovement(Motion.wiggle(50, 1))
+--  cow.movement:addMovement(Motion.waggle(50, 1, math.rad(90)))
+--  shield:addChild(cow)
 EntityMovement = {
 }
 
