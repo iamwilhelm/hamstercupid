@@ -18,12 +18,22 @@ function readPlayerInput(entity)
   end
   if love.keyboard.isDown('s') then
     direction.y = 1
-    entity.model.state = "walk.down"
+    if string.find(entity.model.state, "right") then
+      entity.model.state = "walk.down.right"
+    else 
+      entity.model.state = "walk.down.left"
+    end
   end
   if love.keyboard.isDown('w') then
     direction.y = -1
-    entity.model.state = "walk.up"
+    if string.find(entity.model.state, "right") then
+      entity.model.state = "walk.up.right"
+    else
+      entity.model.state = "walk.up.left"
+    end
   end
+  
+  print(entity.model.state)
 
   return direction
 end
@@ -76,22 +86,22 @@ end
 function createPerson()
   local person = Entity:new("person", V:new(400, 200))
   person.view:film("resources/dodgeball/wildlynx.gif", function(view)
-    view:animation("stand.down", 40, 32, {}, function(animation)
+    view:animation("stand.down.left", 40, 32, {}, function(animation)
       animation:frame(0, 0)
     end)
 
-    view:animation("walk.down", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
+    view:animation("walk.down.left", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
       animation:frame(0, 3, { cols = 3 })
       animation:frame(1, 0, { cols = 3 })
     end)
 
-    view:animation("stand.up", 40, 32, {}, function(animation)
-      animation:frame(0, 2)
+    view:animation("stand.down.right", 40, 32, {}, function(animation)
+      animation:frame(0, 0, { scale = V:new(-1, 1) })
     end)
 
-    view:animation("walk.up", 40, 32, {}, function(animation)
-      animation:frame(2, 3, { cols = 3 })
-      animation:frame(3, 0, { cols = 3 })
+    view:animation("walk.down.right", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
+      animation:frame(0, 3, { cols = 3, scale = V:new(-1, 1) })
+      animation:frame(1, 0, { cols = 3, scale = V:new(-1, 1) })
     end)
 
     view:animation("stand.left", 40, 32, {}, function(animation)
@@ -111,9 +121,28 @@ function createPerson()
       animation:frame(1, 3, { cols = 3, scale = V:new(-1, 1) })
       animation:frame(2, 0, { cols = 3, scale = V:new(-1, 1) })
     end)
+
+    view:animation("stand.up.left", 40, 32, {}, function(animation)
+      animation:frame(0, 2, {})
+    end)
+
+    view:animation("walk.up.left", 40, 32, {}, function(animation)
+      animation:frame(2, 3, { cols = 3 })
+      animation:frame(3, 0, { cols = 3 })
+    end)
+
+    view:animation("stand.up.right", 40, 32, {}, function(animation)
+      animation:frame(0, 2, { scale = V:new(-1, 1) })
+    end)
+
+    view:animation("walk.up.right", 40, 32, {}, function(animation)
+      animation:frame(2, 3, { cols = 3, scale = V:new(-1, 1) })
+      animation:frame(3, 0, { cols = 3, scale = V:new(-1, 1) })
+    end)
+
   end)
 
-  person.model.state = "walk.down"
+  person.model.state = "walk.down.left"
  
   return person
 end
