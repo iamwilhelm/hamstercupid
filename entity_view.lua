@@ -38,8 +38,7 @@ function EntityView:animation(state, width, height, options, block)
   animation:setReferenceDimension(self.spriteMap:getWidth(), self.spriteMap:getHeight())
   animation:setOffset(options["offset"])
   animation:setPeriod(options["period"])
-  animation:setScale(options["scale"])
-
+print(state)
   block(animation) 
   
   self.animations[state] = animation
@@ -60,6 +59,7 @@ function EntityView:update(dt)
   self:currentAnimation():tickAnimation(dt)
   local scale = self:currentAnimation():getScale()
   local center = self:getCenter()
+  print(scale:toString())
   self.spriteBatch:addq(self:currentAnimation():getFrame(), 0, 0, 0, scale.x, scale.y, center.x, center.y)
 end
 
