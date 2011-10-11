@@ -1,7 +1,7 @@
 require('vector.lua')
 
 Motion = {
-  accel_max = 500,
+  accel_max = 150,
 }
 
 -- create anonymous motions
