@@ -1,3 +1,23 @@
+--  local person = Entity:new("person", V:new(400, 200))
+--  person.view:film("resources/dodgeball/wildlynx.gif", function(view)
+--    view:animation("stand.down", 40, 32, {}, function(animation)
+--      animation:frame(0, 0)
+--    end)
+--
+--    view:animation("walk.down", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
+--      animation:frame(0, 3, { cols = 3 })
+--      animation:frame(1, 0, { cols = 3 })
+--    end)
+--
+--    view:animation("stand.up", 40, 32, {}, function(animation)
+--      animation:frame(0, 2)
+--    end)
+--
+--    view:animation("walk.up", 40, 32, {}, function(animation)
+--      animation:frame(2, 3, { cols = 3 })
+--      animation:frame(3, 0, { cols = 3 })
+--    end)
+--  end)
 Animation = {
   name = "Animation",
 }
@@ -19,6 +39,8 @@ function Animation:new()
 
   return instance
 end
+
+-- Methods for setting up and initializing the animation object
 
 function Animation:setDimension(width, height)
   self.width = width
@@ -53,25 +75,28 @@ function Animation:frame(row, col, options)
   end
 end
 
+-- returns the total number of frames in this animation
 function Animation:frameCount()
   return table.getn(self.frames)
 end
 
+-- move the animation reel forward by dt
 function Animation:tickAnimation(dt)
   self.time = (self.time + dt) % self.period
 end
 
-function Animation:frameIndex()
-  -- ugh. lua arrays are 1-based, so we use math.ceil()
-  return math.ceil(self.time / self.period * self:frameCount())
-end
-
+-- get the current frame in the animation
 function Animation:getFrame()
-  return self.frames[self:frameIndex()]
+  return self.frames[self:_frameIndex()]
 end
 
 function Animation:getCenter()
   return V:new(self.width / 2, self.height / 2)
+end
+
+function Animation:_frameIndex()
+  -- ugh. lua arrays are 1-based, so we use math.ceil()
+  return math.ceil(self.time / self.period * self:frameCount())
 end
 
 
