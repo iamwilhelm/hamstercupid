@@ -70,7 +70,6 @@ function Animation:frame(row, col, options)
   options["rows"] = options["rows"] or 1
   options["cols"] = options["cols"] or 1
   self:setScale(options["scale"])
-  print(self.scale:toString())
   
   for rowrun = 1, options["rows"] do
     for colrun = 1, options["cols"] do

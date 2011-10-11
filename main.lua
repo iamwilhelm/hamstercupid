@@ -33,8 +33,6 @@ function readPlayerInput(entity)
     end
   end
   
-  print(entity.model.state)
-
   return direction
 end
 
