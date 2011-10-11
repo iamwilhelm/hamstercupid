@@ -155,17 +155,18 @@ end
 function love.update(dt)
   readCameraInput()
 
-  -- TODO make every root entity move in the game
-  -- TODO make child entities move in the game relative to root
-  player:move(dt, function()
-    player.physics:move(dt)
-    
-    local direction = readPlayerInput(player)
-    player.movement:go(dt, direction)
-
-    -- local waypoint = readPlayerWayPoint()
-    -- player.movement:goToDestination(waypoint)
-  end)
+  for i, entity in ipairs(entities) do
+    if i == 1 then
+      entity:update(dt, function()
+        entity.physics:move(dt)
+        
+        local direction = readPlayerInput(entity)
+        entity.movement:go(dt, direction)
+      end)
+    else
+      entity:update(dt)
+    end
+  end
 
 end
 

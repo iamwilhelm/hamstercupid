@@ -43,7 +43,7 @@ function Entity:addChild(child_entity)
 end
 
 -- Entity update methods
-function Entity:move(dt, block)
+function Entity:update(dt, block)
   print("Moving entity: " .. self.name)
   self.movement:update(dt, block)
   self.view:update(dt)
