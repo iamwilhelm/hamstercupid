@@ -198,6 +198,7 @@ end
 
 function love.draw()
   camera:shoot(function()
+    -- TODO Will need to sort entities by Z-order and draw them according to z-order
     for _, entity in ipairs(entities) do
       entity:draw()
     end
