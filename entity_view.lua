@@ -26,6 +26,8 @@ end
 
 function EntityView:film(filepath, block)
   self.spriteMap = love.graphics.newImage(filepath)
+  -- The spriteBatch holds at most one quad at a time since we're animating
+  self.spriteBatch = love.graphics.newSpriteBatch(self.spriteMap, 1)
   block(self)
 end
 
@@ -42,8 +44,6 @@ function EntityView:animation(state, width, height, options, block)
   block(animation) 
   
   self.animations[state] = animation
-  -- The spriteBatch holds at most one quad at a time since we're animating
-  self.spriteBatch = love.graphics.newSpriteBatch(self.spriteMap, 1)
 end
 
 function EntityView:currentAnimation()
