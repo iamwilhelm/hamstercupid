@@ -30,6 +30,7 @@ function Animation:new()
     height = 32,
     ref_width = 64,
     ref_height = 64,
+    scale = V:new(1, 1),
     time = 0,
     period = 1,
     frames = {},
@@ -60,16 +61,20 @@ function Animation:setPeriod(period)
   self.period = period or 1
 end
 
+function Animation:setScale(scale)
+  print(self.scale:toString())
+  self.scale = scale or V:new(1, 1)
+end
+
 function Animation:frame(row, col, options)
   options = options or {}
   options["rows"] = options["rows"] or 1
   options["cols"] = options["cols"] or 1
-
+  
   for rowrun = 1, options["rows"] do
     for colrun = 1, options["cols"] do
       local x = self.width * (col + colrun - 1) + self.offset.x
       local y = self.height * (row + rowrun - 1) + self.offset.y
-      print(x .. ", " .. y)
       table.insert(self.frames, love.graphics.newQuad(x, y, self.width, self.height, self.ref_width, self.ref_height))
     end
   end
@@ -92,6 +97,10 @@ end
 
 function Animation:getCenter()
   return V:new(self.width / 2, self.height / 2)
+end
+
+function Animation:getScale()
+  return self.scale
 end
 
 function Animation:_frameIndex()

@@ -38,6 +38,7 @@ function EntityView:animation(state, width, height, options, block)
   animation:setReferenceDimension(self.spriteMap:getWidth(), self.spriteMap:getHeight())
   animation:setOffset(options["offset"])
   animation:setPeriod(options["period"])
+  animation:setScale(options["scale"])
 
   block(animation) 
   
@@ -57,19 +58,18 @@ end
 function EntityView:update(dt)
   self.spriteBatch:clear()
   self:currentAnimation():tickAnimation(dt)
-  self.spriteBatch:addq(self:currentAnimation():getFrame(), 0, 0)
+  local scale = self:currentAnimation():getScale()
+  local center = self:getCenter()
+  self.spriteBatch:addq(self:currentAnimation():getFrame(), 0, 0, 0, scale.x, scale.y, center.x, center.y)
 end
 
 -- Entity drawing methods
 
 function EntityView:draw()
-  local center = self:currentAnimation():getCenter()
-
   -- transform coordinate system to entity's local coordinate system
   self:transform(function()
     -- TODO use unpack for position and center vectors
-    love.graphics.draw(self.spriteBatch, 
-      0, 0, 0, 1, 1, center.x, center.y) 
+    love.graphics.draw(self.spriteBatch, 0, 0, 0, 1, 1)
 
     for name, child_entity in pairs(self.entity.children) do
         child_entity:draw()
