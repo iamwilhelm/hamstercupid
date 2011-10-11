@@ -137,18 +137,43 @@ function createPerson(x, y)
       animation:frame(2, 3, { cols = 3, scale = V:new(-1, 1) })
       animation:frame(3, 0, { cols = 3, scale = V:new(-1, 1) })
     end)
-
   end)
 
+  local head = Entity:new("head", V:new(0, -18))
+  head.view:film("resources/dodgeball/wildlynx.gif", function(view)
+    view:animation("look.down.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
+      animation:frame(0, 0)
+    end)
+    view:animation("look.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
+      animation:frame(0, 0)
+    end)
+    view:animation("look.up.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
+      animation:frame(0, 0)
+    end)
+    
+    view:animation("look.down.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
+      animation:frame(0, 0, { scale = V:new(-1, 1) })
+    end)
+    view:animation("look.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
+      animation:frame(0, 0, { scale = V:new(-1, 1) })
+    end)
+    view:animation("look.up.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
+      animation:frame(0, 0, { scale = V:new(-1, 1) })
+    end)
+  end)
+  person:addChild(head)
+
+  -- FIXME forgetting to initialize the state is causing bugs when writing the DSL
   person.model.state = "walk.down.left"
- 
+  head.model.state = "look.down.left"
+
   return person
 end
 
 function love.load()
   entities = {}
 
-  for i = 1, 200 do
+  for i = 1, 1 do
     table.insert(entities, createPerson(math.random(1, 800), math.random(1, 600)))
   end
 end

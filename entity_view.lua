@@ -47,6 +47,7 @@ function EntityView:animation(state, width, height, options, block)
 end
 
 function EntityView:currentAnimation()
+  -- FIXME What to do if the entity's state isn't found in the animations?
   return self.animations[self.model.state]
 end
 
