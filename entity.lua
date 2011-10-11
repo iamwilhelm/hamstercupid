@@ -10,6 +10,7 @@ Entity = {
 function Entity:new(name, position, scale, rotation)
   local instance = {
     klass = Entity,
+    name = name,
   }
 
   -- the metatable of the new obj is Entity(self)
