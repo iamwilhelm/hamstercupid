@@ -81,8 +81,8 @@ function createCow()
   return cow
 end
 
-function createPerson()
-  local person = Entity:new("person", V:new(400, 200))
+function createPerson(x, y)
+  local person = Entity:new("person", V:new(x, y))
   person.view:film("resources/dodgeball/wildlynx.gif", function(view)
     view:animation("stand.down.left", 40, 32, {}, function(animation)
       animation:frame(0, 0)
@@ -148,8 +148,9 @@ end
 function love.load()
   entities = {}
 
-  player = createPerson()
-  table.insert(entities, player)
+  for i = 1, 200 do
+    table.insert(entities, createPerson(math.random(1, 800), math.random(1, 600)))
+  end
 end
 
 function love.update(dt)
