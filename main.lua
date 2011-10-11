@@ -13,6 +13,7 @@ function readPlayerInput(entity)
   end
   if love.keyboard.isDown('a') then
     direction.x = -1
+    entity.model.state = "walk.left"
   end
   if love.keyboard.isDown('s') then
     direction.y = 1
@@ -91,6 +92,16 @@ function createPerson()
       animation:frame(2, 3, { cols = 3 })
       animation:frame(3, 0, { cols = 3 })
     end)
+
+    view:animation("stand.left", 40, 32, {}, function(animation)
+      animation:frame(0, 1)
+    end)
+
+    view:animation("walk.left", 40, 32, {}, function(animation)
+      animation:frame(1, 3, { cols = 3 })
+      animation:frame(2, 0, { cols = 3 })
+    end)
+
   end)
 
   person.model.state = "walk.down"
