@@ -108,7 +108,7 @@ function EntityMovement:update(dt, block)
   
   -- repeat for all child entities
   for _, child_entity in ipairs(self.entity.children) do
-    child_entity:move(dt)
+    child_entity:update(dt)
   end
 end
 
