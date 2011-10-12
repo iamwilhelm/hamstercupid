@@ -16,7 +16,6 @@ function EntityView:new(entity, model)
     animations = {},
     animationTime = 0,
  }
-  -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
   -- method_missing should look at self
   self.__index = self
@@ -75,6 +74,7 @@ function EntityView:draw()
         child_entity:draw()
     end
 
+    -- for debugging
     self:drawMotionVectors()
 
     if not self.entity:hasParent() then
