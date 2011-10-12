@@ -139,6 +139,7 @@ function createPerson(x, y)
     end)
   end)
 
+  -- FIXME performance issue: addind child entity significantly degrades performance.
   local head = Entity:new("head", V:new(0, -18))
   head.view:film("resources/dodgeball/wildlynx.gif", function(view)
     view:animation("look.down.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
@@ -161,6 +162,7 @@ function createPerson(x, y)
       animation:frame(0, 0, { scale = V:new(-1, 1) })
     end)
   end)
+  head.movement:addMovement(Motion.wiggle(0.5, 0.5, math.rad(270)))
   person:addChild(head)
 
   -- FIXME forgetting to initialize the state is causing bugs when writing the DSL
