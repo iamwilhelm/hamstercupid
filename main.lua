@@ -11,25 +11,31 @@ function readPlayerInput(entity)
   if love.keyboard.isDown('d') then
     direction.x = 1
     entity.model.state = "walk.right"
+    entity.children[1].model.state = "look.right"
   end
   if love.keyboard.isDown('a') then
     direction.x = -1
     entity.model.state = "walk.left"
+    entity.children[1].model.state = "look.left"
   end
   if love.keyboard.isDown('s') then
     direction.y = 1
     if string.find(entity.model.state, "right") then
       entity.model.state = "walk.down.right"
+      entity.children[1].model.state = "look.down.right"
     else 
       entity.model.state = "walk.down.left"
+      entity.children[1].model.state = "look.down.left"
     end
   end
   if love.keyboard.isDown('w') then
     direction.y = -1
     if string.find(entity.model.state, "right") then
       entity.model.state = "walk.up.right"
+      entity.children[1].model.state = "look.up.right"
     else
       entity.model.state = "walk.up.left"
+      entity.children[1].model.state = "look.up.left"
     end
   end
   
@@ -146,20 +152,20 @@ function createPerson(x, y)
       animation:frame(0, 0)
     end)
     view:animation("look.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 0)
+      animation:frame(0, 1)
     end)
     view:animation("look.up.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 0)
+      animation:frame(0, 2)
     end)
     
     view:animation("look.down.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
       animation:frame(0, 0, { scale = V:new(-1, 1) })
     end)
     view:animation("look.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 0, { scale = V:new(-1, 1) })
+      animation:frame(0, 1, { scale = V:new(-1, 1) })
     end)
     view:animation("look.up.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 0, { scale = V:new(-1, 1) })
+      animation:frame(0, 2, { scale = V:new(-1, 1) })
     end)
   end)
   head.movement:addMovement(Motion.wiggle(0.5, 0.5, math.rad(270)))
