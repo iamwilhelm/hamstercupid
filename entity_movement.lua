@@ -1,4 +1,4 @@
-require('vector.lua')
+require('vector')
 
 --  magician = Entity:new("magician", V:new(200, 200)
 --
@@ -38,13 +38,6 @@ function EntityMovement:new(entity, model)
   self.__index = self
 
   return instance
-end
-
-function EntityMovement:toString()
-  return "EntityMovement: " .. 
-    self.acc:toString() .. ", " ..
-    self.vel:toString() .. ", " ..
-    self.pos:toString()
 end
 
 function EntityMovement:go(dt, direction)
@@ -125,3 +118,23 @@ function EntityMovement:_pushToModel(dt)
   self.model.pos = self.model.pos + self.accumulated_pos + (self.model.vel * dt)
 end 
 
+-- Metamethods on instance
+function EntityMovement:__tostring()
+  return "<" .. self.klass.name ..
+    ", pos=" .. self.accumulated_pos ..
+    ", vel=" .. self.accumulated_vel ..
+    ", acc=" .. self.accumulated_acc .. ">"
+end
+
+function EntityMovement:__concat(a)
+  if (type(self) == "string" or type(self) == "number") then
+    return self .. a:__tostring()
+  else
+    return self:__tostring() .. a
+  end
+end
+
+-- movement = EntityMovement:new()
+-- print(movement)
+-- print("prefix: " .. movement)
+-- print(movement .. ": postfix")
