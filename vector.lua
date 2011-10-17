@@ -81,11 +81,15 @@ function Vector:__tostring()
    return "(" .. self.x .. ", " .. self.y .. ")"
 end
 
+function Vector:__concat(a)
+  return self .. a:__tostring()
+end
+
 -- a = Vector:new(2,2)
--- print(a)
+-- print("this vector is: " .. a)
 -- b = Vector:new(5,6)
--- print(a)
--- print(b)
+-- c = a + b
+-- print("c: " .. c)
 -- 
 -- print(getmetatable(a) == getmetatable(b))
 -- print(Vector == getmetatable(a))
