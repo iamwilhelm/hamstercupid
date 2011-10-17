@@ -1,55 +1,55 @@
 --  A custom vector class
 
 Vector = {
-   name = "Vector",
+  name = "Vector",
 }
 V = Vector
 
 function Vector:new(x, y)
-   local instance = {
-     klass = Vector,
-   }
-   setmetatable(instance, self)
-   self.__index = self
+  local instance = {
+    klass = Vector,
+  }
+  setmetatable(instance, self)
+  self.__index = self
 
-   instance.x = x
-   instance.y = y
-   return instance
+  instance.x = x
+  instance.y = y
+  return instance
 end
 
 function Vector:isNearby(threshold, a)
-   if a == self then
-      return false 
-   end
-   return self:distance(a) < threshold
+  if a == self then
+     return false 
+  end
+  return self:distance(a) < threshold
 end
 
 function Vector:distance(a)
-   return math.sqrt((self.x - a.x)^2 + (self.y - a.y)^2)
+  return math.sqrt((self.x - a.x)^2 + (self.y - a.y)^2)
 end
 
 function Vector:__add(a)
-   return Vector:new(self.x + a.x, self.y + a.y)
+  return Vector:new(self.x + a.x, self.y + a.y)
 end
 
 function Vector:__sub(a)
-   return Vector:new(self.x - a.x, self.y - a.y)
+  return Vector:new(self.x - a.x, self.y - a.y)
 end
 
 function Vector:__mul(num)
-   return Vector:new(self.x * num, self.y * num)
+  return Vector:new(self.x * num, self.y * num)
 end
 
 function Vector:__div(num)
-   if (num ~= 0) then
-      return Vector:new(self.x / num, self.y / num)
-   else
-      return self
-   end
+  if (num ~= 0) then
+     return Vector:new(self.x / num, self.y / num)
+  else
+     return self
+  end
 end
 
 function Vector:__unm()
-   return Vector:new(-self.x, -self.y)
+  return Vector:new(-self.x, -self.y)
 end
 
 function Vector:clone()
@@ -62,23 +62,23 @@ function Vector:isMicro(delta)
 end
 
 function Vector:dot(a)
-   return self.x * a.x + self.y * a.y
+  return self.x * a.x + self.y * a.y
 end
 
 function Vector:r()
-   return math.sqrt(self:dot(self))
+  return math.sqrt(self:dot(self))
 end
 
 function Vector:norm()
-   return Vector:new(self.x, self.y) / self:r()
+  return Vector:new(self.x, self.y) / self:r()
 end
 
 function Vector:ang()
-   return math.atan(self.y / self.x)
+  return math.atan(self.y / self.x)
 end
 
 function Vector:__tostring()
-   return "(" .. self.x .. ", " .. self.y .. ")"
+  return "(" .. self.x .. ", " .. self.y .. ")"
 end
 
 function Vector:__concat(a)
