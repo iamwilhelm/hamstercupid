@@ -1,4 +1,4 @@
-require('vector.lua')
+require('vector')
 
 EntityModel = {
   name = "EntityModel"
@@ -24,4 +24,23 @@ function EntityModel:new(position, scale, rotation)
   return instance
 end
 
+-- Metamethods on instance
+function EntityModel:__tostring()
+  return "<" .. self.klass.name ..
+    ": pos=" .. self.pos ..
+    ", vel=" .. self.vel ..
+    ", acc=" .. self.acc .. ">"
+end
 
+function EntityModel:__concat(a)
+  if (type(self) == "string" or type(self) == "number") then
+    return self .. a:__tostring()
+  else
+    return self:__tostring() .. a
+  end
+end
+
+-- a = EntityModel:new(V:new(1,2))
+-- print(a)
+-- print("a: " .. a)
+-- print(a .. " hello")
