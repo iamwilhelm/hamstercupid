@@ -17,10 +17,6 @@ function Vector:new(x, y)
    return instance
 end
 
-function Vector:toString()
-   return "(" .. self.x .. ", " .. self.y .. ")"
-end
-
 function Vector:isNearby(threshold, a)
    if a == self then
       return false 
@@ -77,11 +73,15 @@ function Vector:ang()
    return math.atan(self.y / self.x)
 end
 
+function Vector:__tostring()
+   return "(" .. self.x .. ", " .. self.y .. ")"
+end
+
 -- a = Vector:new(2,2)
--- print(a:toString())
+-- print(a)
 -- b = Vector:new(5,6)
--- print(a:toString())
--- print(b:toString())
+-- print(a)
+-- print(b)
 -- 
 -- print(getmetatable(a) == getmetatable(b))
 -- print(Vector == getmetatable(a))
