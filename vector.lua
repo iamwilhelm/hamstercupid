@@ -82,7 +82,11 @@ function Vector:__tostring()
 end
 
 function Vector:__concat(a)
-  return self .. a:__tostring()
+  if (type(self) == "string" or type(self) == "number") then
+    return self .. a:__tostring()
+  else
+    return self:__tostring() .. a
+  end
 end
 
 -- a = Vector:new(2,2)
@@ -90,6 +94,7 @@ end
 -- b = Vector:new(5,6)
 -- c = a + b
 -- print("c: " .. c)
+-- print(c .. " hello")
 -- 
 -- print(getmetatable(a) == getmetatable(b))
 -- print(Vector == getmetatable(a))
