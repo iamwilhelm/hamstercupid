@@ -10,7 +10,7 @@ function EntityModel:new(position, scale, rotation)
   local instance = {
     klass = EntityModel,
 
-    pos = V:new(position.x, position.y), -- need to clone
+    pos = position:clone(),
     vel = V:new(0, 0),
     acc = V:new(0, 0),
     scl = scale or V:new(1, 1),
