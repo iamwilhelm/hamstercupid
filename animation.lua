@@ -21,6 +21,8 @@
 Animation = {
   name = "Animation",
 }
+setmetatable(Animation, Animation)
+Animation.__index = Animation
 
 function Animation:new()
   local instance = {
@@ -36,7 +38,6 @@ function Animation:new()
     frames = {},
   }
   setmetatable(instance, self)
-  self.__index = self
 
   return instance
 end

@@ -3,6 +3,8 @@ require('vector')
 EntityModel = {
   name = "EntityModel"
 }
+setmetatable(EntityModel, EntityModel)
+EntityModel.__index = EntityModel
 
 function EntityModel:new(position, scale, rotation)
   -- coordinate system is wrt the parent entity or for the root entity, 
@@ -19,7 +21,6 @@ function EntityModel:new(position, scale, rotation)
     state = "stand",
   }
   setmetatable(instance, self)
-  self.__index = self
 
   return instance
 end

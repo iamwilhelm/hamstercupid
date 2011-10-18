@@ -6,6 +6,7 @@ require('entity_movement')
 Entity = {
   name = "Entity",
 }
+Entity.__index = Entity
 
 function Entity:new(name, position, scale, rotation)
   local instance = {
@@ -15,8 +16,6 @@ function Entity:new(name, position, scale, rotation)
 
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
-  -- method_missing should look at self
-  self.__index = self
 
   instance.model = EntityModel:new(position, scale, rotation)
   instance.view = EntityView:new(instance, instance.model)

@@ -4,6 +4,8 @@ require('animation')
 EntityView = {
   name = "EntityView"
 }
+setmetatable(EntityView, EntityView)
+EntityView.__index = EntityView
 
 function EntityView:new(entity, model)
   local instance = {
@@ -17,8 +19,6 @@ function EntityView:new(entity, model)
     animationTime = 0,
  }
   setmetatable(instance, self)
-  -- method_missing should look at self
-  self.__index = self
 
   return instance
 end

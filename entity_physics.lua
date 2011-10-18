@@ -3,6 +3,8 @@ require('vector')
 EntityPhysics = {
   name = "EntityPhysics",
 }
+setmetatable(EntityPhysics, EntityPhysics)
+EntityPhysics.__index = EntityPhysics
 
 function EntityPhysics:new(model)
   local instance = {
@@ -11,7 +13,6 @@ function EntityPhysics:new(model)
     model = model,
   }
   setmetatable(instance, self)
-  self.__index = self 
 
   return instance
 end

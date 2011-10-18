@@ -19,6 +19,8 @@ require('vector')
 EntityMovement = {
   name = "EntityMovement",
 }
+setmetatable(EntityMovement, EntityMovement)
+EntityMovement.__index = EntityMovement
 
 function EntityMovement:new(entity, model)
   -- The coordinate system for movement is with respect to the entity, 
@@ -35,7 +37,6 @@ function EntityMovement:new(entity, model)
     motions = {},
   }
   setmetatable(instance, self)
-  self.__index = self
 
   return instance
 end
