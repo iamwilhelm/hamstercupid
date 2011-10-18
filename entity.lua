@@ -1,7 +1,7 @@
-require('entity_model.lua')
-require('entity_view.lua')
-require('entity_physics.lua')
-require('entity_movement.lua')
+require('entity_model')
+require('entity_view')
+require('entity_physics')
+require('entity_movement')
 
 Entity = {
   name = "Entity",

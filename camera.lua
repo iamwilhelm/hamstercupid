@@ -1,4 +1,4 @@
-require('vector.lua')
+require('vector')
 
 camera = {}
 camera.pos = V:new(0, 0)

@@ -1,5 +1,5 @@
-require('vector.lua')
-require('animation.lua')
+require('vector')
+require('animation')
 
 EntityView = {
   name = "EntityView"

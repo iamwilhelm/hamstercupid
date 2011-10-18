@@ -1,7 +1,7 @@
-require('vector.lua')
-require('entity.lua')
-require('camera.lua')
-require('motion.lua')
+require('vector')
+require('entity')
+require('camera')
+require('motion')
 
 -- Read player input
 

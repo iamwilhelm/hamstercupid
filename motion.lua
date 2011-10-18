@@ -1,4 +1,4 @@
-require('vector.lua')
+require('vector')
 
 Motion = {
   accel_max = 150,
