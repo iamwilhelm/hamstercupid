@@ -1,4 +1,4 @@
-require('vector.lua')
+require('vector')
 
 EntityPhysics = {
   name = "EntityPhysics",
@@ -27,7 +27,7 @@ function EntityPhysics:friction(dt, coef)
   end
 end
 
-function EntityPhysics:move(dt)
+function EntityPhysics:update(dt)
   self:friction(dt, 0.05)
 end
 

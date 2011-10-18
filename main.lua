@@ -192,7 +192,7 @@ function love.update(dt)
   for i, entity in ipairs(entities) do
     if i == 1 then
       entity:update(dt, function()
-        entity.physics:move(dt)
+        entity.physics:update(dt)
         
         local direction = readPlayerInput(entity)
         entity.movement:go(dt, direction)
