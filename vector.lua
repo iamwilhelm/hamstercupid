@@ -1,8 +1,12 @@
+require('object')
+
 --  A custom vector class
 
 Vector = {
   name = "Vector",
 }
+setmetatable(Vector, Object)
+Vector.__index = Vector
 V = Vector
 
 function Vector:new(x, y)
@@ -10,7 +14,13 @@ function Vector:new(x, y)
     klass = Vector,
   }
   setmetatable(instance, self)
-  self.__index = self
+
+--  table.foreach(getmetatable(self), print)
+--  print("---------------------------------")
+--  table.foreach(self, print)
+--  print("---------------------------------")
+--  table.foreach(instance, print)
+--  print("---------------------------------")
 
   instance.x = x
   instance.y = y
@@ -81,6 +91,7 @@ function Vector:__tostring()
   return "(" .. self.x .. ", " .. self.y .. ")"
 end
 
+-- FIXME can't seem to inherit metamethods
 function Vector:__concat(a)
   if (type(self) == "string" or type(self) == "number") then
     return self .. a:__tostring()
@@ -89,7 +100,18 @@ function Vector:__concat(a)
   end
 end
 
+function Vector:bar()
+  print("bar!")
+end
+
 -- a = Vector:new(2,2)
+-- a:bar()
+-- a:foo()
+-- 
+-- table.foreach(getmetatable(a), print)
+-- print("**************************")
+-- table.foreach(getmetatable(getmetatable(a)), print)
+-- 
 -- print("this vector is: " .. a)
 -- b = Vector:new(5,6)
 -- c = a + b
