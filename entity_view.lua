@@ -4,7 +4,6 @@ require('animation')
 EntityView = {
   name = "EntityView"
 }
-setmetatable(EntityView, EntityView)
 EntityView.__index = EntityView
 
 function EntityView:new(entity, model)

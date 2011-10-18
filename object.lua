@@ -1,4 +1,4 @@
-
+-- Experimental and object class. Remember that love also has an object class
 Object = {
   name = "Object"
 }

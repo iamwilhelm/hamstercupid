@@ -3,7 +3,6 @@ require('vector')
 EntityPhysics = {
   name = "EntityPhysics",
 }
-setmetatable(EntityPhysics, EntityPhysics)
 EntityPhysics.__index = EntityPhysics
 
 function EntityPhysics:new(model)

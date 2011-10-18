@@ -3,7 +3,6 @@ require('vector')
 EntityModel = {
   name = "EntityModel"
 }
-setmetatable(EntityModel, EntityModel)
 EntityModel.__index = EntityModel
 
 function EntityModel:new(position, scale, rotation)

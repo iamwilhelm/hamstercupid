@@ -19,7 +19,6 @@ require('vector')
 EntityMovement = {
   name = "EntityMovement",
 }
-setmetatable(EntityMovement, EntityMovement)
 EntityMovement.__index = EntityMovement
 
 function EntityMovement:new(entity, model)

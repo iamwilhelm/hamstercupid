@@ -5,7 +5,6 @@ require('object')
 Vector = {
   name = "Vector",
 }
-setmetatable(Vector, Object)
 Vector.__index = Vector
 V = Vector
 
