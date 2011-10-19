@@ -1,4 +1,5 @@
 require("object")
+require("vector")
 
 --  local person = Entity:new("person", V:new(400, 200))
 --  person.view:film("resources/dodgeball/wildlynx.gif", function(view)
@@ -23,6 +24,7 @@ require("object")
 Animation = {
   name = "Animation",
 }
+setmetatable(Animation, Object)
 Animation.__index = Animation
 
 Animation:include(Metamethodable)
@@ -107,9 +109,17 @@ function Animation:getScale()
   return self.scale
 end
 
+-- private methods
+
 function Animation:_frameIndex()
   -- ugh. lua arrays are 1-based, so we use math.ceil()
   return math.ceil(self.time / self.period * self:frameCount())
 end
 
+-- metamethods
+Animation.__tostring = Animation.__toattrstring
 
+-- ani = Animation:new()
+-- print(ani)
+-- print("prefix " .. ani)
+-- print(ani .. " postfix")
