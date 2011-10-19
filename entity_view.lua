@@ -113,4 +113,6 @@ function EntityView:drawMotionVectors()
   love.graphics.setColor(r, g, b, a)
 end
 
+-- metamethods
+EntityView.__tostring = EntityView.__toattrstring
 
