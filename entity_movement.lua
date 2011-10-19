@@ -1,3 +1,4 @@
+require('object')
 require('vector')
 
 --  magician = Entity:new("magician", V:new(200, 200)
@@ -20,6 +21,8 @@ EntityMovement = {
   name = "EntityMovement",
 }
 EntityMovement.__index = EntityMovement
+
+EnittyMovement:include(Metamethodable)
 
 function EntityMovement:new(entity, model)
   -- The coordinate system for movement is with respect to the entity, 

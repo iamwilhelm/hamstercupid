@@ -1,9 +1,12 @@
+require('object')
 require('vector')
 
 EntityPhysics = {
   name = "EntityPhysics",
 }
 EntityPhysics.__index = EntityPhysics
+
+EntityPhysics:include(Metamethodable)
 
 function EntityPhysics:new(model)
   local instance = {

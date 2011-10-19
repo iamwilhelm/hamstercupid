@@ -1,3 +1,5 @@
+require("object")
+
 --  local person = Entity:new("person", V:new(400, 200))
 --  person.view:film("resources/dodgeball/wildlynx.gif", function(view)
 --    view:animation("stand.down", 40, 32, {}, function(animation)
@@ -21,8 +23,9 @@
 Animation = {
   name = "Animation",
 }
-setmetatable(Animation, Animation)
 Animation.__index = Animation
+
+Animation:include(Metamethodable)
 
 function Animation:new()
   local instance = {

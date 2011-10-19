@@ -1,3 +1,4 @@
+require('object')
 require('entity_model')
 require('entity_view')
 require('entity_physics')
@@ -7,6 +8,8 @@ Entity = {
   name = "Entity",
 }
 Entity.__index = Entity
+
+Entity:include(MetaMethodable)
 
 function Entity:new(name, position, scale, rotation)
   local instance = {

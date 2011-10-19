@@ -1,3 +1,4 @@
+require('object')
 require('vector')
 require('animation')
 
@@ -5,6 +6,8 @@ EntityView = {
   name = "EntityView"
 }
 EntityView.__index = EntityView
+
+EnittyView.include(Metamethodable)
 
 function EntityView:new(entity, model)
   local instance = {

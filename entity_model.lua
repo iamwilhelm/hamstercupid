@@ -1,9 +1,12 @@
+require('object')
 require('vector')
 
 EntityModel = {
   name = "EntityModel"
 }
 EntityModel.__index = EntityModel
+
+EnittyModel.include(Metamethodable)
 
 function EntityModel:new(position, scale, rotation)
   -- coordinate system is wrt the parent entity or for the root entity, 
