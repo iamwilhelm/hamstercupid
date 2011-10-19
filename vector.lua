@@ -6,6 +6,7 @@ Vector = {
   name = "Vector",
 }
 Vector.__index = Vector
+Mixin.include(Vector, Objectable)
 V = Vector
 
 function Vector:new(x, y)
@@ -90,35 +91,13 @@ function Vector:__tostring()
   return "(" .. self.x .. ", " .. self.y .. ")"
 end
 
--- FIXME can't seem to inherit metamethods
-function Vector:__concat(a)
-  if (type(self) == "string" or type(self) == "number") then
-    return self .. a:__tostring()
-  else
-    return self:__tostring() .. a
-  end
-end
-
-function Vector:bar()
-  print("bar!")
-end
-
 -- a = Vector:new(2,2)
--- a:bar()
--- a:foo()
--- 
--- table.foreach(getmetatable(a), print)
--- print("**************************")
--- table.foreach(getmetatable(getmetatable(a)), print)
 -- 
 -- print("this vector is: " .. a)
 -- b = Vector:new(5,6)
 -- c = a + b
 -- print("c: " .. c)
 -- print(c .. " hello")
--- 
--- print(getmetatable(a) == getmetatable(b))
--- print(Vector == getmetatable(a))
 -- 
 -- print(a:distance(b))
 -- print(a:is_nearby(10, a))
