@@ -35,3 +35,7 @@ function EntityPhysics:update(dt)
   self:friction(dt, 0.05)
 end
 
+-- metamethods
+
+EntityPhysics.__tostring = EntityPhysics.__toattrstring
+
