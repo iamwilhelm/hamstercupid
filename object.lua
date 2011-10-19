@@ -1,13 +1,17 @@
 -- Experimental and object class. Remember that love also has an object class
+-- And that MiddleClass exists as well.
+-- https://github.com/kikito/middleclass  
 
--- Mixin to merge tables into other tables
-Mixin = {
-  include = function(a, b)
-    for k, v in pairs(b) do a[k] = v end
+-- Mixin for common metamethods
+Metamethodable = {
+  __tostring = function(self)
+    if self.name ~= nil then
+      return "<<" .. self.name .. ">>"
+    else
+      return "<Object>"
+    end
   end,
-}
 
-Objectable = {
   __concat = function(self, a)
     if (type(self) == "string" or type(self) == "number") then
       return self .. a:__tostring()
@@ -17,11 +21,10 @@ Objectable = {
   end,
 }
 
--- This is the base object class
+-- The base object class.
 Object = {
   name = "Object"
 }
--- setmetatable(Object, Object)
 Object.__index = Object
 
 function Object:new()
@@ -33,17 +36,11 @@ function Object:new()
   return instance
 end
 
-function Object:__tostring()
-  if self.name ~= nil then
-    return "<<" .. self.name .. ">>"
-  else
-    return "<Object>"
-  end
+function Object:include(mod)
+  for k, v in pairs(mod) do self[k] = v end
 end
 
-function Object:foo()
-  print("foo!")
-end
+Object:include(Metamethodable)
 
 -- table.foreach(Object, print)
 -- obj = Object:new()

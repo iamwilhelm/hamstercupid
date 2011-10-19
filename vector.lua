@@ -5,22 +5,17 @@ require('object')
 Vector = {
   name = "Vector",
 }
+setmetatable(Vector, Object)
 Vector.__index = Vector
-Mixin.include(Vector, Objectable)
 V = Vector
+
+Vector:include(Metamethodable)
 
 function Vector:new(x, y)
   local instance = {
     klass = Vector,
   }
   setmetatable(instance, self)
-
---  table.foreach(getmetatable(self), print)
---  print("---------------------------------")
---  table.foreach(self, print)
---  print("---------------------------------")
---  table.foreach(instance, print)
---  print("---------------------------------")
 
   instance.x = x
   instance.y = y
