@@ -7,9 +7,11 @@ require('entity_movement')
 Entity = {
   name = "Entity",
 }
+setmetatable(Entity, Object)
 Entity.__index = Entity
 
-Entity:include(MetaMethodable)
+-- FIXME somehow this one doesn't work
+-- Entity:include(MetaMethodable)
 
 function Entity:new(name, position, scale, rotation)
   local instance = {

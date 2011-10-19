@@ -5,9 +5,10 @@ require('animation')
 EntityView = {
   name = "EntityView"
 }
+setmetatable(EntityView, Object)
 EntityView.__index = EntityView
 
-EnittyView.include(Metamethodable)
+EntityView:include(Metamethodable)
 
 function EntityView:new(entity, model)
   local instance = {

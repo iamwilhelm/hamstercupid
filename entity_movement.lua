@@ -20,9 +20,10 @@ require('vector')
 EntityMovement = {
   name = "EntityMovement",
 }
+setmetatable(EntityMovement, Object)
 EntityMovement.__index = EntityMovement
 
-EnittyMovement:include(Metamethodable)
+EntityMovement:include(Metamethodable)
 
 function EntityMovement:new(entity, model)
   -- The coordinate system for movement is with respect to the entity, 

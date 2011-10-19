@@ -4,6 +4,7 @@ require('vector')
 EntityPhysics = {
   name = "EntityPhysics",
 }
+setmetatable(EntityPhysics, Object)
 EntityPhysics.__index = EntityPhysics
 
 EntityPhysics:include(Metamethodable)
