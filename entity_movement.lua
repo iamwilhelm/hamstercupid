@@ -109,6 +109,8 @@ function EntityMovement:update(dt, block)
   end
 end
 
+-- private methods
+
 function EntityMovement:_reset()
   self.accumulated_acc = V:new(0, 0)
   self.accumulated_vel = V:new(0, 0)
@@ -122,21 +124,8 @@ function EntityMovement:_pushToModel(dt)
   self.model.pos = self.model.pos + self.accumulated_pos + (self.model.vel * dt)
 end 
 
--- Metamethods on instance
-function EntityMovement:__tostring()
-  return "<" .. self.klass.name ..
-    ", pos=" .. self.accumulated_pos ..
-    ", vel=" .. self.accumulated_vel ..
-    ", acc=" .. self.accumulated_acc .. ">"
-end
-
-function EntityMovement:__concat(a)
-  if (type(self) == "string" or type(self) == "number") then
-    return self .. a:__tostring()
-  else
-    return self:__tostring() .. a
-  end
-end
+-- Metamethods
+EntityMovement.__tostring = EntityMovement.__toattrstring
 
 -- movement = EntityMovement:new()
 -- print(movement)
