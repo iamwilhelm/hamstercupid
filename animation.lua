@@ -117,7 +117,7 @@ function Animation:_frameIndex()
 end
 
 -- metamethods
-Animation.__tostring = Animation.__toattrstring
+Animation.__tostring = Animation.tostringByAttr({ offset=1, width=1, height=1, ref_width=1, ref_height=1, scale=1, time=1, period=1, frames=1 })
 
 -- ani = Animation:new()
 -- print(ani)
