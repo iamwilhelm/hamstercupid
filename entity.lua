@@ -10,8 +10,7 @@ Entity = {
 setmetatable(Entity, Object)
 Entity.__index = Entity
 
--- FIXME somehow this one doesn't work
--- Entity:include(MetaMethodable)
+Entity:include(Metamethodable)
 
 function Entity:new(name, position, scale, rotation)
   local instance = {
@@ -59,4 +58,17 @@ function Entity:draw()
   -- have to figure out some way draw in z-order of all the children
   self.view:draw()
 end
+
+-- metamethods
+
+function Entity:__tostring()
+  return "<Entity: \n" ..
+    "  " .. self.model .. "\n" ..
+    "  " .. self.view .. "\n" ..
+    "  " .. self.movement .. "\n" ..
+    ">"
+end
+
+-- local person = Entity:new("person", V:new(100, 100))
+-- print(person)
 

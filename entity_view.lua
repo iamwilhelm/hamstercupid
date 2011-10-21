@@ -20,7 +20,7 @@ function EntityView:new(entity, model)
     spriteBatch = nil,
     animations = {},
     animationTime = 0,
- }
+  }
   setmetatable(instance, self)
 
   return instance
@@ -114,5 +114,9 @@ function EntityView:drawMotionVectors()
 end
 
 -- metamethods
-EntityView.__tostring = EntityView.__toattrstring
+EntityView.__tostring = EntityView.tostringByAttr({ spriteMap=1, spriteBatch=1, animations=1, animationTime=1 })
 
+-- a = EntityView:new(nil, nil)
+-- print(a)
+-- print("prefix: " .. a)
+-- print(a .. " :postfix")

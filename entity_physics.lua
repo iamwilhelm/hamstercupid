@@ -37,5 +37,5 @@ end
 
 -- metamethods
 
-EntityPhysics.__tostring = EntityPhysics.__toattrstring
+EntityPhysics.__tostring = EntityPhysics.tostringByAttr({})
 

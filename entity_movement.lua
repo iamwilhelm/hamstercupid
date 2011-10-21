@@ -125,7 +125,7 @@ function EntityMovement:_pushToModel(dt)
 end 
 
 -- Metamethods
-EntityMovement.__tostring = EntityMovement.__toattrstring
+EntityMovement.__tostring = EntityMovement.tostringByAttr({ accumulated_pos=1, accumulated_vel=1, accumulated_acc=1, motions=1 })
 
 -- movement = EntityMovement:new()
 -- print(movement)

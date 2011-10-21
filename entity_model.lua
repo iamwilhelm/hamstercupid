@@ -29,7 +29,7 @@ function EntityModel:new(position, scale, rotation)
 end
 
 -- Metamethods on instance
-EntityModel.__tostring = EntityModel.__toattrstring
+EntityModel.__tostring = EntityModel.tostringByAttr({ pos=1, vel=1, acc=1, scl=1, rot=1 })
 
 -- a = EntityModel:new(V:new(1,2))
 -- print(a)
