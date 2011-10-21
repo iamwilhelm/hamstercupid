@@ -31,6 +31,8 @@ Metamethodable = {
         if only[k] ~= nil then
           if (type(v) == "table" and v["__concat"] == nil) then
             str = str .. k .. "={" .. type(v) .. "}, "
+          elseif (type(v) == "userdata") then
+            str = str .. k .. "={" .. type(v) .. "}, "
           elseif k == "__index" or k == "klass" or type(v) == "function" then
             -- do nothing
           else
