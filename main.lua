@@ -151,19 +151,23 @@ function createPerson(x, y)
     view:animation("look.down.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
       animation:frame(0, 0)
     end)
+
     view:animation("look.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
       animation:frame(0, 1)
     end)
+
     view:animation("look.up.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
       animation:frame(0, 2)
     end)
-    
+
     view:animation("look.down.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
       animation:frame(0, 0, { scale = V:new(-1, 1) })
     end)
+
     view:animation("look.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
       animation:frame(0, 1, { scale = V:new(-1, 1) })
     end)
+
     view:animation("look.up.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
       animation:frame(0, 2, { scale = V:new(-1, 1) })
     end)
