@@ -57,11 +57,23 @@ function EntityView:getCenter()
   return self:currentAnimation():getCenter()
 end
 
+-- Error: ./entity_view.lua:65: Incorrect parameter type: expected userdata.
+-- stack traceback:
+-- 	[C]: in function 'addq'
+-- 	./entity_view.lua:65: in function 'update'
+-- 	./entity.lua:53: in function 'update'
+-- 	./entity_movement.lua:108: in function 'update'
+-- 	./entity.lua:52: in function 'update'
+-- 	[string "main.lua"]:205: in function 'update'
+-- 	[string "boot.lua"]:1: in function <[string "boot.lua"]:1>
+-- 	[C]: in function 'xpcall'
+-- 
 function EntityView:update(dt)
   self.spriteBatch:clear()
   self:currentAnimation():tickAnimation(dt)
   local scale = self:currentAnimation():getScale()
   local center = self:getCenter()
+  -- FIXME It seems that sometimes, currentAnimation is selected that doesn't have any frames at all?
   self.spriteBatch:addq(self:currentAnimation():getFrame(), 0, 0, 0, scale.x, scale.y, center.x, center.y)
 end
 
