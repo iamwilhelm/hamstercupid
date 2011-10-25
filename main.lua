@@ -3,6 +3,10 @@ require('entity')
 require('camera')
 require('motion')
 
+require('lib/pepperfish_profiler')
+profiler = newProfiler()
+profiler:start()
+
 -- Read player input
 
 function readPlayerInput(entity)
@@ -185,8 +189,10 @@ end
 function love.load()
   entities = {}
 
-  for i = 1, 1 do
-    table.insert(entities, createPerson(math.random(1, 800), math.random(1, 600)))
+  math.randomseed(os.time())
+  for i = 1, 200 do 
+    -- table.insert(entities, createPerson(400, 300))
+    table.insert(entities, createPerson(math.random(20, 780), math.random(20, 580)))
   end
 end
 
@@ -205,7 +211,6 @@ function love.update(dt)
       entity:update(dt)
     end
   end
-
 end
 
 function love.draw()
@@ -220,3 +225,11 @@ function love.draw()
   love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
 end
 
+function love.quit()
+  print("Thanks for viewing the demo!")
+
+  profiler:stop()
+  local outfile = io.open("profiling/pepperfish_results.out", "w+")
+  profiler:report(outfile)
+  outfile:close()
+end
