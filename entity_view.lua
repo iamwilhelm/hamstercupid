@@ -74,7 +74,7 @@ function EntityView:draw()
     love.graphics.draw(self.spriteBatch, 0, 0, 0, 1, 1)
 
     for name, child_entity in pairs(self.entity.children) do
-        child_entity:draw()
+      child_entity:draw()
     end
 
     -- for debugging

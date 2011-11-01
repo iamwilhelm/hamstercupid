@@ -176,7 +176,6 @@ function createPerson(x, y)
       animation:frame(0, 2, { scale = V:new(-1, 1) })
     end)
   end)
-  head.movement:addMovement(Motion.wiggle(0.5, 0.5, math.rad(270)))
   person:addChild(head)
 
   -- FIXME forgetting to initialize the state is causing bugs when writing the DSL
