@@ -3,9 +3,13 @@ require('entity')
 require('camera')
 require('motion')
 
-require('lib/pepperfish_profiler')
-profiler = newProfiler()
-profiler:start()
+-- require('lib/pepperfish_profiler')
+-- profiler = newProfiler()
+-- profiler:start()
+
+-- require('luarocks.loader')
+-- require('profiler')
+-- profiler:start("./profiling/luaprofiler_results.out")
 
 -- Read player input
 
@@ -227,8 +231,13 @@ end
 function love.quit()
   print("Thanks for viewing the demo!")
 
-  profiler:stop()
-  local outfile = io.open("profiling/pepperfish_results.out", "w+")
-  profiler:report(outfile)
-  outfile:close()
+--  --  pepperfish profiler
+--  profiler:stop()
+--  local outfile = io.open("profiling/pepperfish_results.out", "w+")
+--  profiler:report(outfile)
+--  outfile:close()
+
+  -- lua profiler
+  --  profiler:stop()
 end
+
