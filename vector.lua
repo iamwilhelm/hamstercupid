@@ -11,14 +11,14 @@ V = Vector
 
 Vector:include(Metamethodable)
 
-function Vector:new(x, y)
+function Vector:new(newX, newY)
   local instance = {
     klass = Vector,
+    x = newX or 0,
+    y = newY or 0,
   }
   setmetatable(instance, self)
 
-  instance.x = x
-  instance.y = y
   return instance
 end
 
