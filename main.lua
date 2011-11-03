@@ -3,6 +3,14 @@ require('entity')
 require('camera')
 require('motion')
 
+-- require('lib/pepperfish_profiler')
+-- profiler = newProfiler()
+-- profiler:start()
+
+-- require('luarocks.loader')
+-- require('profiler')
+-- profiler:start("./profiling/luaprofiler_results.out")
+
 -- Read player input
 
 function readPlayerInput(entity)
@@ -172,7 +180,6 @@ function createPerson(x, y)
       animation:frame(0, 2, { scale = V:new(-1, 1) })
     end)
   end)
-  head.movement:addMovement(Motion.wiggle(0.5, 0.5, math.rad(270)))
   person:addChild(head)
 
   -- FIXME forgetting to initialize the state is causing bugs when writing the DSL
@@ -185,8 +192,10 @@ end
 function love.load()
   entities = {}
 
-  for i = 1, 1 do
-    table.insert(entities, createPerson(math.random(1, 800), math.random(1, 600)))
+  math.randomseed(os.time())
+  for i = 1, 200 do 
+    -- table.insert(entities, createPerson(400, 300))
+    table.insert(entities, createPerson(math.random(20, 780), math.random(20, 580)))
   end
 end
 
@@ -205,7 +214,6 @@ function love.update(dt)
       entity:update(dt)
     end
   end
-
 end
 
 function love.draw()
@@ -218,5 +226,18 @@ function love.draw()
   end)
 
   love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
+end
+
+function love.quit()
+  print("Thanks for viewing the demo!")
+
+--  --  pepperfish profiler
+--  profiler:stop()
+--  local outfile = io.open("profiling/pepperfish_results.out", "w+")
+--  profiler:report(outfile)
+--  outfile:close()
+
+  -- lua profiler
+  --  profiler:stop()
 end
 

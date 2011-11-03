@@ -2,6 +2,8 @@ require('object')
 
 --  A custom vector class
 
+-- FIXME The creation of new vectors when doing arithmetic operations on it gets to
+-- be really expensive, especially when it's used in the update loop
 Vector = {
   name = "Vector",
 }
@@ -11,14 +13,14 @@ V = Vector
 
 Vector:include(Metamethodable)
 
-function Vector:new(x, y)
+function Vector:new(newX, newY)
   local instance = {
     klass = Vector,
+    x = newX or 0,
+    y = newY or 0,
   }
   setmetatable(instance, self)
 
-  instance.x = x
-  instance.y = y
   return instance
 end
 

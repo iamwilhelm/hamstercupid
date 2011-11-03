@@ -81,24 +81,35 @@ end
 
 function EntityView:draw()
   -- transform coordinate system to entity's local coordinate system
-  self:transform(function()
+
+  -- self:transform(function()
+  love.graphics.push()
+
+  love.graphics.translate(self.model.pos.x, self.model.pos.y)
+  love.graphics.rotate(self.model.rot)
+  love.graphics.scale(self.model.scl.x, self.model.scl.y)
+
     -- TODO use unpack for position and center vectors
     love.graphics.draw(self.spriteBatch, 0, 0, 0, 1, 1)
 
     for name, child_entity in pairs(self.entity.children) do
-        child_entity:draw()
+      child_entity:draw()
     end
 
     -- for debugging
-    self:drawMotionVectors()
+    -- self:drawMotionVectors()
 
     if not self.entity:hasParent() then
       -- self:drawDebug()
     end
-  end)
+
+  love.graphics.pop()
+  -- end)
 end
 
 -- private to transform coordinate to draw the child entity
+-- FIXME will have to test again, but it seems like functions that take blocks
+-- Take longer to run...well at least they clog up the profiler.
 function EntityView:transform(block)
   love.graphics.push()
 

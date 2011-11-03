@@ -112,9 +112,12 @@ end
 -- private methods
 
 function EntityMovement:_reset()
-  self.accumulated_acc = V:new(0, 0)
-  self.accumulated_vel = V:new(0, 0)
-  self.accumulated_pos = V:new(0, 0)
+  self.accumulated_acc.x = 0
+  self.accumulated_acc.y = 0
+  self.accumulated_vel.x = 0
+  self.accumulated_vel.y = 0
+  self.accumulated_pos.x = 0
+  self.accumulated_pos.y = 0
 end
 
 -- update velocity and position based on all the movement
