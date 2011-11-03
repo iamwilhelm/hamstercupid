@@ -49,8 +49,12 @@ function EntityView:animation(state, width, height, options, block)
 end
 
 function EntityView:currentAnimation()
-  -- FIXME What to do if the entity's state isn't found in the animations?
-  return self.animations[self.model.state]
+  local animation = self.animations[self.model.state]
+  if animation == nil then
+    error("Animation for state: " .. self.model.state .. " was not found")
+  else
+    return animation 
+  end
 end
 
 function EntityView:getCenter()
