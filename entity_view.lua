@@ -34,7 +34,7 @@ function EntityView:film(filepath, block)
 end
 
 function EntityView:animation(state, width, height, options, block)
-  -- TODO it might be better to ahve width and height in options, and just pass that directly into animation
+  -- TODO it might be better to have width and height in options, and just pass that directly into animation
   -- by also merging the reference dimensions as well. Lua doesn't have a table merge, but a:
   -- for k, v in pairs(second_table) do first_table[k] = v end
   local animation = Animation:new()

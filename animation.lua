@@ -97,6 +97,7 @@ function Animation:tickAnimation(dt)
 end
 
 -- get the current frame in the animation
+-- TODO need some exception handling if the frameIndex tries to index something that doesn't exist
 function Animation:getFrame()
   return self.frames[self:_frameIndex()]
 end

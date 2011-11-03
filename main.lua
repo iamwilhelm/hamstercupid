@@ -153,7 +153,7 @@ function createPerson(x, y)
     end)
   end)
 
-  -- FIXME performance issue: addind child entity significantly degrades performance.
+  -- FIXME performance issue: adding child entity significantly degrades performance.
   local head = Entity:new("head", V:new(0, -18))
   head.view:film("resources/dodgeball/wildlynx.gif", function(view)
     view:animation("look.down.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
