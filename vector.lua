@@ -2,6 +2,8 @@ require('object')
 
 --  A custom vector class
 
+-- FIXME The creation of new vectors when doing arithmetic operations on it gets to
+-- be really expensive, especially when it's used in the update loop
 Vector = {
   name = "Vector",
 }

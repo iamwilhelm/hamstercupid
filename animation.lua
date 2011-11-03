@@ -111,6 +111,7 @@ end
 
 -- private methods
 
+-- FIXME this function makes getFrame(), and subsequently EntityView:update() run way too slow
 function Animation:_frameIndex()
   -- ugh. lua arrays are 1-based, so we use math.ceil()
   return math.ceil(self.time / self.period * self:frameCount())

@@ -96,6 +96,8 @@ function EntityView:draw()
 end
 
 -- private to transform coordinate to draw the child entity
+-- FIXME will have to test again, but it seems like functions that take blocks
+-- Take longer to run...well at least they clog up the profiler.
 function EntityView:transform(block)
   love.graphics.push()
 
