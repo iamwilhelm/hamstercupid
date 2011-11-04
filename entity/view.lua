@@ -1,6 +1,6 @@
 require('object')
 require('vector')
-require('animation')
+require('entity/animation')
 
 EntityView = {
   name = "EntityView"

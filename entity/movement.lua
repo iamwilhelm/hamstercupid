@@ -1,5 +1,6 @@
 require('object')
 require('vector')
+require('entity/motion')
 
 --  magician = Entity:new("magician", V:new(200, 200)
 --

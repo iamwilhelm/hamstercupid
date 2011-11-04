@@ -1,8 +1,9 @@
 require('object')
-require('entity_model')
-require('entity_view')
-require('entity_physics')
-require('entity_movement')
+
+require('entity/model')
+require('entity/view')
+require('entity/physics')
+require('entity/movement')
 
 Entity = {
   name = "Entity",

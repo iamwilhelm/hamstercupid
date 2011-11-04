@@ -1,6 +1,8 @@
 require("object")
 require("vector")
 
+-- Animations hold the frames to display for the entity view
+--
 --  local person = Entity:new("person", V:new(400, 200))
 --  person.view:film("resources/dodgeball/wildlynx.gif", function(view)
 --    view:animation("stand.down", 40, 32, {}, function(animation)
@@ -21,6 +23,7 @@ require("vector")
 --      animation:frame(3, 0, { cols = 3 })
 --    end)
 --  end)
+-- 
 Animation = {
   name = "Animation",
 }
