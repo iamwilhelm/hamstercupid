@@ -35,6 +35,12 @@ function Vector:distance(a)
   return math.sqrt((self.x - a.x)^2 + (self.y - a.y)^2)
 end
 
+function Vector:accum(b)
+  self.x = self.x + b.x
+  self.y = self.y + b.y
+  return self
+end
+
 function Vector:__add(a)
   return Vector:new(self.x + a.x, self.y + a.y)
 end

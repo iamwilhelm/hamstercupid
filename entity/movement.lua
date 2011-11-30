@@ -124,8 +124,8 @@ end
 -- update velocity and position based on all the movement
 function EntityMovement:_pushToModel(dt)
   self.model.acc = self.accumulated_acc
-  self.model.vel = self.model.vel + self.accumulated_vel + (self.model.acc * dt)
-  self.model.pos = self.model.pos + self.accumulated_pos + (self.model.vel * dt)
+  self.model.vel:accum(self.accumulated_vel):accum(self.model.acc * dt)
+  self.model.pos:accum(self.accumulated_pos):accum(self.model.vel * dt)
 end 
 
 -- Metamethods
