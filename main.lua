@@ -1,7 +1,6 @@
 require('vector')
 require('entity')
 require('camera')
-require('motion')
 
 -- require('lib/pepperfish_profiler')
 -- profiler = newProfiler()
