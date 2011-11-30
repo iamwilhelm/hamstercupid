@@ -5,10 +5,25 @@ require('entity/view')
 require('entity/physics')
 require('entity/movement')
 
+
+-- Entity represesents some object in the game world. It can use different components to affect 
+-- its behaviors and properties. 
+--
+-- The entity methods are the API and interface to the outside world.
+-- As other entities should never reach in and interact with the components of the entity directly. 
+-- (Should this be true? Some components are fairly complex...maybe we should use delegates)
+--
+-- The current components are:
+--
+--  * model - data representing its properties like position, speed, and acceleration
+--  * view - the animations necessary to draw the object
+--  * physics - behaviors to implement rudimentary physics
+--  * state - behavior related to state and state transitions
+--
 Entity = {
   name = "Entity",
 }
-setmetatable(Entity, Object)
+setmetatable(Entity, Object) -- Entity inherits from Object
 Entity.__index = Entity
 
 Entity:include(Metamethodable)

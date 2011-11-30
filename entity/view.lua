@@ -26,6 +26,8 @@ function EntityView:new(entity, model)
   return instance
 end
 
+-- The mini DSL to define the animations
+
 function EntityView:film(filepath, block)
   self.spriteMap = love.graphics.newImage(filepath)
   -- The spriteBatch holds at most one quad at a time since we're animating
@@ -47,6 +49,8 @@ function EntityView:animation(state, width, height, options, block)
   
   self.animations[state] = animation
 end
+
+-- helper functions
 
 function EntityView:currentAnimation()
   local animation = self.animations[self.model.state]
@@ -111,7 +115,7 @@ function EntityView:draw()
   -- end)
 end
 
--- private to transform coordinate to draw the child entity
+-- transform coordinate to draw the child entity
 -- FIXME will have to test again, but it seems like functions that take blocks
 -- Take longer to run...well at least they clog up the profiler.
 function EntityView:transform(block)
