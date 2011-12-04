@@ -2,17 +2,17 @@ require('object')
 require('vector')
 require('entity/animation')
 
-EntityView = {
-  name = "EntityView"
+local View = {
+  name = "Entity.View"
 }
-setmetatable(EntityView, Object)
-EntityView.__index = EntityView
+setmetatable(View, Object)
+View.__index = View
 
-EntityView:include(Metamethodable)
+View:include(Metamethodable)
 
-function EntityView:new(entity, model)
+function View:new(entity, model)
   local instance = {
-    klass = EntityView,
+    klass = View,
     entity = entity,
     model = model,
 
@@ -28,14 +28,14 @@ end
 
 -- The mini DSL to define the animations
 
-function EntityView:film(filepath, block)
+function View:film(filepath, block)
   self.spriteMap = love.graphics.newImage(filepath)
   -- The spriteBatch holds at most one quad at a time since we're animating
   self.spriteBatch = love.graphics.newSpriteBatch(self.spriteMap, 1)
   block(self)
 end
 
-function EntityView:animation(state, width, height, options, block)
+function View:animation(state, width, height, options, block)
   -- TODO it might be better to have width and height in options, and just pass that directly into animation
   -- by also merging the reference dimensions as well. Lua doesn't have a table merge, but a:
   -- for k, v in pairs(second_table) do first_table[k] = v end
@@ -52,7 +52,7 @@ end
 
 -- helper functions
 
-function EntityView:currentAnimation()
+function View:currentAnimation()
   local animation = self.animations[self.model.state]
   if animation == nil then
     error("Animation for state: " .. self.model.state .. " was not found")
@@ -61,7 +61,7 @@ function EntityView:currentAnimation()
   end
 end
 
-function EntityView:getCenter()
+function View:getCenter()
   return self:currentAnimation():getCenter()
 end
 
@@ -76,7 +76,7 @@ end
 -- 	[string "boot.lua"]:1: in function <[string "boot.lua"]:1>
 -- 	[C]: in function 'xpcall'
 -- 
-function EntityView:update(dt)
+function View:update(dt)
   self.spriteBatch:clear()
   self:currentAnimation():tickAnimation(dt)
   local scale = self:currentAnimation():getScale()
@@ -87,7 +87,7 @@ end
 
 -- Entity drawing methods
 
-function EntityView:draw()
+function View:draw()
   -- transform coordinate system to entity's local coordinate system
 
   -- self:transform(function()
@@ -118,7 +118,7 @@ end
 -- transform coordinate to draw the child entity
 -- FIXME will have to test again, but it seems like functions that take blocks
 -- Take longer to run...well at least they clog up the profiler.
-function EntityView:transform(block)
+function View:transform(block)
   love.graphics.push()
 
   love.graphics.translate(self.model.pos.x, self.model.pos.y)
@@ -129,13 +129,13 @@ function EntityView:transform(block)
   love.graphics.pop()
 end
 
-function EntityView:drawDebug()
+function View:drawDebug()
   love.graphics.print(self.model.pos:toString(), self.model.pos.x, self.model.pos.y)
   love.graphics.print(self.model.vel:toString(), self.model.pos.x, self.model.pos.y - 14)
   love.graphics.print(self.model.acc:toString(), self.model.pos.x, self.model.pos.y - 14 * 2)
 end
 
-function EntityView:drawMotionVectors()
+function View:drawMotionVectors()
   local r, g, b, a = love.graphics.getColor()
   love.graphics.setColor(0, 200, 0)
   love.graphics.line(0, 0, self.model.acc.x, self.model.acc.y)
@@ -145,9 +145,11 @@ function EntityView:drawMotionVectors()
 end
 
 -- metamethods
-EntityView.__tostring = EntityView.tostringByAttr({ spriteMap=1, spriteBatch=1, animations=1, animationTime=1 })
+View.__tostring = View.tostringByAttr({ spriteMap=1, spriteBatch=1, animations=1, animationTime=1 })
 
--- a = EntityView:new(nil, nil)
+return View
+
+-- a = View:new(nil, nil)
 -- print(a)
 -- print("prefix: " .. a)
 -- print(a .. " :postfix")
