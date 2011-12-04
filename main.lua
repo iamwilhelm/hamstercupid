@@ -94,6 +94,8 @@ function createCow()
   return cow
 end
 
+-- FIXME every person object is taking up 5MB, because none of the sprites are being shared across objects. 
+-- We need to make sprites be loaded and shared between objects that are identical.
 function createPerson(x, y)
   local person = Entity:new("person", V:new(x, y))
   person.view:film("resources/dodgeball/wildlynx.gif", function(view)
