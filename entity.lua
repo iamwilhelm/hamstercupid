@@ -1,9 +1,6 @@
 require('object')
 
-require('entity/view')
 require('entity/physics')
-require('entity/movement')
-
 
 -- Entity represesents some object in the game world. It can use different components to affect 
 -- its behaviors and properties. 
@@ -23,6 +20,7 @@ Entity = {
   name = "Entity",
   Model = require('entity/model'),
   View = require('entity/view'),
+  Movement = require('entity/movement'),
 }
 setmetatable(Entity, Object) -- Entity inherits from Object
 Entity.__index = Entity
@@ -40,7 +38,7 @@ function Entity:new(name, position, scale, rotation)
 
   instance.model = Entity.Model:new(position, scale, rotation)
   instance.view = Entity.View:new(instance, instance.model)
-  instance.movement = EntityMovement:new(instance, instance.model)
+  instance.movement = Entity.Movement:new(instance, instance.model)
   instance.physics = EntityPhysics:new(instance.model)
 
   instance.parent = nil

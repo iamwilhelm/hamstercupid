@@ -18,19 +18,19 @@ require('entity/motion')
 --  cow.movement:addMovement(Motion.wiggle(50, 1))
 --  cow.movement:addMovement(Motion.waggle(50, 1, math.rad(90)))
 --  shield:addChild(cow)
-EntityMovement = {
-  name = "EntityMovement",
+local Movement = {
+  name = "Entity.Movement",
 }
-setmetatable(EntityMovement, Object)
-EntityMovement.__index = EntityMovement
+setmetatable(Movement, Object)
+Movement.__index = Movement
 
-EntityMovement:include(Metamethodable)
+Movement:include(Metamethodable)
 
-function EntityMovement:new(entity, model)
+function Movement:new(entity, model)
   -- The coordinate system for movement is with respect to the entity, 
   -- unlike in the model, the coordinate system is with respect to the parent entity
   local instance = {
-    klass = EntityMovement,
+    klass = Movement,
     entity = entity,
     model = model,
 
@@ -45,7 +45,7 @@ function EntityMovement:new(entity, model)
   return instance
 end
 
-function EntityMovement:go(dt, direction)
+function Movement:go(dt, direction)
   local acc = V:new(0, 0)
   if (direction.x > 0) then
     self:addToAcceleration(V:new(Motion.accel_max, 0))
@@ -67,27 +67,27 @@ end
 
 
 -- Entity movement control methods
-function EntityMovement:addMovement(block)
+function Movement:addMovement(block)
   table.insert(self.motions, block)
 end
 
 -- Add the differential acceleration to accumulated acceleration 
-function EntityMovement:addToAcceleration(acc)
+function Movement:addToAcceleration(acc)
   self.accumulated_acc = self.accumulated_acc + acc
 end
 
 -- Add the differential velocity to accumulated velocity
-function EntityMovement:addToVelocity(vel)
+function Movement:addToVelocity(vel)
   self.accumulated_vel = self.accumulated_vel + vel
 end
 
 -- Add the differential position to accumultated position
-function EntityMovement:addToPosition(pos)
+function Movement:addToPosition(pos)
   self.accumulated_pos = self.accumulated_pos + pos
 end
 
 -- Provides the core engine for updating an entity's motions
-function EntityMovement:update(dt, block)
+function Movement:update(dt, block)
   -- reset the accumulated motions since last tick
   self:_reset()
 
@@ -112,7 +112,7 @@ end
 
 -- private methods
 
-function EntityMovement:_reset()
+function Movement:_reset()
   self.accumulated_acc.x = 0
   self.accumulated_acc.y = 0
   self.accumulated_vel.x = 0
@@ -122,16 +122,18 @@ function EntityMovement:_reset()
 end
 
 -- update velocity and position based on all the movement
-function EntityMovement:_pushToModel(dt)
+function Movement:_pushToModel(dt)
   self.model.acc = self.accumulated_acc
   self.model.vel:accum(self.accumulated_vel):accum(self.model.acc * dt)
   self.model.pos:accum(self.accumulated_pos):accum(self.model.vel * dt)
 end 
 
 -- Metamethods
-EntityMovement.__tostring = EntityMovement.tostringByAttr({ accumulated_pos=1, accumulated_vel=1, accumulated_acc=1, motions=1 })
+Movement.__tostring = Movement.tostringByAttr({ accumulated_pos=1, accumulated_vel=1, accumulated_acc=1, motions=1 })
 
--- movement = EntityMovement:new()
+return Movement
+
+-- movement = Movement:new()
 -- print(movement)
 -- print("prefix: " .. movement)
 -- print(movement .. ": postfix")
