@@ -1,6 +1,5 @@
 require('object')
 
-require('entity/model')
 require('entity/view')
 require('entity/physics')
 require('entity/movement')
@@ -22,6 +21,7 @@ require('entity/movement')
 --
 Entity = {
   name = "Entity",
+  Model = require('entity/model'),
 }
 setmetatable(Entity, Object) -- Entity inherits from Object
 Entity.__index = Entity
@@ -37,7 +37,7 @@ function Entity:new(name, position, scale, rotation)
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
 
-  instance.model = EntityModel:new(position, scale, rotation)
+  instance.model = Entity.Model:new(position, scale, rotation)
   instance.view = EntityView:new(instance, instance.model)
   instance.movement = EntityMovement:new(instance, instance.model)
   instance.physics = EntityPhysics:new(instance.model)

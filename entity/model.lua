@@ -1,19 +1,19 @@
 require('object')
 require('vector')
 
-EntityModel = {
-  name = "EntityModel"
+local Model = {
+  name = "Model"
 }
-setmetatable(EntityModel, Object)
-EntityModel.__index = EntityModel
+setmetatable(Model, Object)
+Model.__index = Model
 
-EntityModel:include(Metamethodable)
+Model:include(Metamethodable)
 
-function EntityModel:new(position, scale, rotation)
+function Model:new(position, scale, rotation)
   -- coordinate system is wrt the parent entity or for the root entity, 
   -- it's the world coordinates
   local instance = {
-    klass = EntityModel,
+    klass = Model,
 
     pos = position:clone(),
     vel = V:new(0, 0),
@@ -29,7 +29,9 @@ function EntityModel:new(position, scale, rotation)
 end
 
 -- Metamethods on instance
-EntityModel.__tostring = EntityModel.tostringByAttr({ pos=1, vel=1, acc=1, scl=1, rot=1 })
+Model.__tostring = Model.tostringByAttr({ pos=1, vel=1, acc=1, scl=1, rot=1 })
+  
+return Model
 
 -- a = EntityModel:new(V:new(1,2))
 -- print(a)
