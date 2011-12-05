@@ -1,7 +1,3 @@
-require('vector')
-require('entity')
-require('camera')
-
 -- require('lib/pepperfish_profiler')
 -- profiler = newProfiler()
 -- profiler:start()
@@ -9,6 +5,12 @@ require('camera')
 -- require('luarocks.loader')
 -- require('profiler')
 -- profiler:start("./profiling/luaprofiler_results.out")
+
+require('vector')
+require('entity')
+require('camera')
+
+require('characters/person')
 
 -- Read player input
 
@@ -97,96 +99,7 @@ end
 -- FIXME every person object is taking up 5MB, because none of the sprites are being shared across objects. 
 -- We need to make sprites be loaded and shared between objects that are identical.
 function createPerson(x, y)
-  local person = Entity:new("person", V:new(x, y))
-  person.view:film("resources/dodgeball/wildlynx.gif", function(view)
-    view:animation("stand.down.left", 40, 32, {}, function(animation)
-      animation:frame(0, 0)
-    end)
-
-    view:animation("walk.down.left", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
-      animation:frame(0, 3, { cols = 3 })
-      animation:frame(1, 0, { cols = 3 })
-    end)
-
-    view:animation("stand.down.right", 40, 32, {}, function(animation)
-      animation:frame(0, 0, { scale = V:new(-1, 1) })
-    end)
-
-    view:animation("walk.down.right", 40, 32, { offset = V:new(0, 0), period = 1 }, function(animation)
-      animation:frame(0, 3, { cols = 3, scale = V:new(-1, 1) })
-      animation:frame(1, 0, { cols = 3, scale = V:new(-1, 1) })
-    end)
-
-    view:animation("stand.left", 40, 32, {}, function(animation)
-      animation:frame(0, 1)
-    end)
-
-    view:animation("walk.left", 40, 32, {}, function(animation)
-      animation:frame(1, 3, { cols = 3 })
-      animation:frame(2, 0, { cols = 3 })
-    end)
-
-    view:animation("stand.right", 40, 32, {}, function(animation)
-      animation:frame(0, 1, { scale = V:new(-1, 1) })
-    end)
-
-    view:animation("walk.right", 40, 32, { scale = V:new(-1, 1) }, function(animation)
-      animation:frame(1, 3, { cols = 3, scale = V:new(-1, 1) })
-      animation:frame(2, 0, { cols = 3, scale = V:new(-1, 1) })
-    end)
-
-    view:animation("stand.up.left", 40, 32, {}, function(animation)
-      animation:frame(0, 2, {})
-    end)
-
-    view:animation("walk.up.left", 40, 32, {}, function(animation)
-      animation:frame(2, 3, { cols = 3 })
-      animation:frame(3, 0, { cols = 3 })
-    end)
-
-    view:animation("stand.up.right", 40, 32, {}, function(animation)
-      animation:frame(0, 2, { scale = V:new(-1, 1) })
-    end)
-
-    view:animation("walk.up.right", 40, 32, {}, function(animation)
-      animation:frame(2, 3, { cols = 3, scale = V:new(-1, 1) })
-      animation:frame(3, 0, { cols = 3, scale = V:new(-1, 1) })
-    end)
-  end)
-
-  -- FIXME performance issue: adding child entity significantly degrades performance.
-  local head = Entity:new("head", V:new(0, -18))
-  head.view:film("resources/dodgeball/wildlynx.gif", function(view)
-    view:animation("look.down.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 0)
-    end)
-
-    view:animation("look.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 1)
-    end)
-
-    view:animation("look.up.left", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 2)
-    end)
-
-    view:animation("look.down.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 0, { scale = V:new(-1, 1) })
-    end)
-
-    view:animation("look.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 1, { scale = V:new(-1, 1) })
-    end)
-
-    view:animation("look.up.right", 32, 32, { offset = V:new(768, 0) }, function(animation)
-      animation:frame(0, 2, { scale = V:new(-1, 1) })
-    end)
-  end)
-  person:addChild(head)
-
-  -- FIXME forgetting to initialize the state is causing bugs when writing the DSL
-  person.model.state = "walk.down.left"
-  head.model.state = "look.down.left"
-
+  local person = Person:new(x, y)
   return person
 end
 
@@ -194,7 +107,7 @@ function love.load()
   entities = {}
 
   math.randomseed(os.time())
-  for i = 1, 200 do 
+  for i = 1, 50 do 
     -- table.insert(entities, createPerson(400, 300))
     table.insert(entities, createPerson(math.random(20, 780), math.random(20, 580)))
   end

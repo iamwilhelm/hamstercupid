@@ -23,7 +23,7 @@ Entity = {
   Physics = require('entity/physics'),
 }
 setmetatable(Entity, Object) -- Entity inherits from Object
-Entity.__index = Entity
+Entity.__index = Entity -- method_missing. We put it outside, since it only needs to be set once every instanciation
 
 Entity:include(Metamethodable)
 
@@ -33,7 +33,7 @@ function Entity:new(name, position, scale, rotation)
     name = name,
   }
 
-  -- the metatable of the new obj is Entity(self)
+  -- Metatable is used to define special operations for the table
   setmetatable(instance, self)
 
   -- FIXME Should be able to swap out components during initialization
