@@ -1,17 +1,17 @@
 require('object')
 require('vector')
 
-EntityPhysics = {
-  name = "EntityPhysics",
+local Physics = {
+  name = "Entity.Physics",
 }
-setmetatable(EntityPhysics, Object)
-EntityPhysics.__index = EntityPhysics
+setmetatable(Physics, Object)
+Physics.__index = Physics
 
-EntityPhysics:include(Metamethodable)
+Physics:include(Metamethodable)
 
-function EntityPhysics:new(model)
+function Physics:new(model)
   local instance = {
-    klass = EntityPhysics,
+    klass = Physics,
 
     model = model,
   }
@@ -20,7 +20,7 @@ function EntityPhysics:new(model)
   return instance
 end
 
-function EntityPhysics:friction(dt, coef)
+function Physics:friction(dt, coef)
   -- Not true friction, but it's enough to simulate it
   coef = coef or 0.05
 
@@ -31,11 +31,13 @@ function EntityPhysics:friction(dt, coef)
   end
 end
 
-function EntityPhysics:update(dt)
+function Physics:update(dt)
   self:friction(dt, 0.05)
 end
 
 -- metamethods
 
-EntityPhysics.__tostring = EntityPhysics.tostringByAttr({})
+Physics.__tostring = Physics.tostringByAttr({})
+
+return Physics
 

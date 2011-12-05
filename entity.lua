@@ -1,6 +1,5 @@
 require('object')
 
-require('entity/physics')
 
 -- Entity represesents some object in the game world. It can use different components to affect 
 -- its behaviors and properties. 
@@ -21,6 +20,7 @@ Entity = {
   Model = require('entity/model'),
   View = require('entity/view'),
   Movement = require('entity/movement'),
+  Physics = require('entity/physics'),
 }
 setmetatable(Entity, Object) -- Entity inherits from Object
 Entity.__index = Entity
@@ -36,10 +36,12 @@ function Entity:new(name, position, scale, rotation)
   -- the metatable of the new obj is Entity(self)
   setmetatable(instance, self)
 
+  -- FIXME Should be able to swap out components during initialization
+  -- Right now, every component is hardcoded
   instance.model = Entity.Model:new(position, scale, rotation)
   instance.view = Entity.View:new(instance, instance.model)
   instance.movement = Entity.Movement:new(instance, instance.model)
-  instance.physics = EntityPhysics:new(instance.model)
+  instance.physics = Entity.Physics:new(instance.model)
 
   instance.parent = nil
   instance.children = {}
