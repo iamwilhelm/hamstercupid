@@ -103,14 +103,18 @@ function createPerson(x, y)
   return person
 end
 
+player = nil
 function love.load()
+  -- TODO A simple entity manager. we just have a list that we run through when we're drawing them all. It needs to be ordered by Z-order
   entities = {}
 
   math.randomseed(os.time())
-  for i = 1, 50 do 
+  for i = 1, 5 do 
     -- table.insert(entities, createPerson(400, 300))
     table.insert(entities, createPerson(math.random(20, 780), math.random(20, 580)))
   end
+  player = entities[1]
+end
 end
 
 function love.update(dt)
@@ -118,11 +122,11 @@ function love.update(dt)
 
   for i, entity in ipairs(entities) do
     if i == 1 then
-      entity:update(dt, function()
-        entity.physics:update(dt)
+      player:update(dt, function()
+        player.physics:update(dt)
         
         local direction = readPlayerInput(entity)
-        entity.movement:go(dt, direction)
+        player.movement:go(dt, direction)
       end)
     else
       entity:update(dt)
