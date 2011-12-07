@@ -17,17 +17,17 @@ require('characters/person')
 function readPlayerInput(entity)
   local direction = V:new(0, 0)
 
-  if love.keyboard.isDown('d') then
+  if love.keyboard.isDown('right') then
     direction.x = 1
     entity.model.state = "walk.right"
     entity.children[1].model.state = "look.right"
   end
-  if love.keyboard.isDown('a') then
+  if love.keyboard.isDown('left') then
     direction.x = -1
     entity.model.state = "walk.left"
     entity.children[1].model.state = "look.left"
   end
-  if love.keyboard.isDown('s') then
+  if love.keyboard.isDown('down') then
     direction.y = 1
     if string.find(entity.model.state, "right") then
       entity.model.state = "walk.down.right"
@@ -37,7 +37,7 @@ function readPlayerInput(entity)
       entity.children[1].model.state = "look.down.left"
     end
   end
-  if love.keyboard.isDown('w') then
+  if love.keyboard.isDown('up') then
     direction.y = -1
     if string.find(entity.model.state, "right") then
       entity.model.state = "walk.up.right"
@@ -52,22 +52,22 @@ function readPlayerInput(entity)
 end
 
 function readCameraInput()
-  if love.keyboard.isDown("right") then
+  if love.keyboard.isDown("l") then
     camera:pan(V:new(20, 0))
   end
-  if love.keyboard.isDown('left') then
+  if love.keyboard.isDown('j') then
     camera:pan(V:new(-20, 0))
   end
-  if love.keyboard.isDown('down') then
+  if love.keyboard.isDown('k') then
     camera:pan(V:new(0, 20))
   end
-  if love.keyboard.isDown('up') then
+  if love.keyboard.isDown('i') then
     camera:pan(V:new(0, -20))
   end
-  if love.keyboard.isDown(']') then
+  if love.keyboard.isDown('u') then
     camera:zoom(1.05)
   end
-  if love.keyboard.isDown('[') then
+  if love.keyboard.isDown('o') then
     camera:zoom(1 / 1.05)
   end
 end
