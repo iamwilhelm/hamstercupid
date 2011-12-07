@@ -120,18 +120,19 @@ end
 function love.update(dt)
   readCameraInput()
 
+  --  update all entities in a uniform way
   for i, entity in ipairs(entities) do
-    if i == 1 then
-      player:update(dt, function()
-        player.physics:update(dt)
-        
-        local direction = readPlayerInput(entity)
-        player.movement:go(dt, direction)
-      end)
-    else
-      entity:update(dt)
-    end
+    entity:update(dt, function()
+      if entity.physics ~= nil then
+        entity.physics:update(dt)
+      end
+
+      local direction = readPlayerInput(player)
+      player.movement:go(dt, direction)
+
+    end)
   end
+
 end
 
 function love.draw()
