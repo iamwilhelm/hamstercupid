@@ -13,6 +13,7 @@ Person:include(Metamethodable)
 function Person:new(x, y)
   local person = Entity:new("person", V:new(x, y))
   local head = Entity:new("head", V:new(0, -18))
+  head.movement:addMovement(Motion.wiggle(1, 0.5, 0))
   person:addChild(head)
 
   -- FIXME forgetting to initialize the state is causing bugs when writing the DSL
