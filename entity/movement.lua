@@ -73,17 +73,17 @@ end
 
 -- Add the differential acceleration to accumulated acceleration 
 function Movement:addToAcceleration(acc)
-  self.accumulated_acc = self.accumulated_acc + acc
+  self.accumulated_acc:accum(acc)
 end
 
 -- Add the differential velocity to accumulated velocity
 function Movement:addToVelocity(vel)
-  self.accumulated_vel = self.accumulated_vel + vel
+  self.accumulated_vel:accum(vel)
 end
 
 -- Add the differential position to accumultated position
 function Movement:addToPosition(pos)
-  self.accumulated_pos = self.accumulated_pos + pos
+  self.accumulated_pos:accum(pos)
 end
 
 -- Provides the core engine for updating an entity's motions
