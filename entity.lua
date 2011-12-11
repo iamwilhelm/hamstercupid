@@ -1,6 +1,5 @@
 require('object')
 
-
 -- Entity represesents some object in the game world. It can use different components to affect 
 -- its behaviors and properties. 
 --
@@ -21,11 +20,13 @@ Entity = {
   View = require('entity/view'),
   Movement = require('entity/movement'),
   Physics = require('entity/physics'),
+  WalkingControls = require('entity/walking_controls'),
 }
 setmetatable(Entity, Object) -- Entity inherits from Object
 Entity.__index = Entity -- method_missing. We put it outside, since it only needs to be set once every instanciation
 
 Entity:include(Metamethodable)
+
 
 function Entity:new(name, position, scale, rotation)
   local instance = {
@@ -42,6 +43,7 @@ function Entity:new(name, position, scale, rotation)
   instance.view = Entity.View:new(instance, instance.model)
   instance.movement = Entity.Movement:new(instance, instance.model)
   instance.physics = Entity.Physics:new(instance.model)
+  instance.controls = Entity.WalkingControls:new(instance.view)
 
   instance.parent = nil
   instance.children = {}

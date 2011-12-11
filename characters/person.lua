@@ -16,10 +16,20 @@ function Person:new(x, y)
   head.movement:addMovement(Motion.wiggle(1, 0.5, 0))
   person:addChild(head)
 
+  Person.states(person, head)
+  Person.animations(person, head)
+  Person.controlMap(person, head)
+
+  return person
+end
+
+function Person.states(person, head)
   -- FIXME forgetting to initialize the state is causing bugs when writing the DSL
   person.model.state = "walk.down.left"
   head.model.state = "look.down.left"
+end
 
+function Person.animations(person, head)
   -- TODO This is just temporary until I find a good way to declare in json-like format
   person.view:film("resources/dodgeball/wildlynx.gif", function(view)
     view:animation("stand.down.left", 40, 32, {}, function(animation)
@@ -107,4 +117,5 @@ function Person:new(x, y)
   return person
 end
 
-
+function Person.controlMap(person, head)
+end

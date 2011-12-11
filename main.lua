@@ -76,6 +76,14 @@ function readPlayerWayPoint()
   return V:new(love.mouse.getX(), love.mouse.getY())
 end
 
+Keyboard = {}
+Keyboard.__index = Keyboard
+function Keyboard:new()
+  local instance = {}
+  setmetatable(instance, self)
+  return instance 
+end
+
 -- Map functions
 
 map = {}
@@ -96,7 +104,8 @@ function createCow()
   return cow
 end
 
--- FIXME every person object is taking up 5MB, because none of the sprites are being shared across objects. 
+-- FIXME every person object is taking up 5MB, because none of the sprites 
+-- are being shared across objects. 
 -- We need to make sprites be loaded and shared between objects that are identical.
 function createPerson(x, y)
   local person = Person:new(x, y)
@@ -105,7 +114,8 @@ end
 
 player = nil
 function love.load()
-  -- TODO A simple entity manager. we just have a list that we run through when we're drawing them all. It needs to be ordered by Z-order
+  -- TODO A simple entity manager. we just have a list that we run through when 
+  -- we're drawing them all. It needs to be ordered by Z-order
   entities = {}
 
   math.randomseed(os.time())
@@ -114,11 +124,31 @@ function love.load()
     table.insert(entities, createPerson(math.random(20, 780), math.random(20, 580)))
   end
   player = entities[1]
+  player.controls.hookTo(Keyboard:new())
+  
 end
+
+function love.keyboard.keypressed(key, unicode)
+  player.controls.oneTimeActions(key)
+end
+
+-- This is a pseudo event that I created for consistency, but it's really being 
+-- called from love.update()
+--
+-- FIXME The parameters don't actually work, so I don't know if this is a good 
+-- idea, since we have to use isKeyDown() anyway
+function love.keyboard.keyheld(key, unicode)
+  readCameraInput()
+  player.controls:navigateWithKeyHeldAction(key)
+  return readPlayerInput(player)
+end
+
+function love.keyboard.keyreleased(key, unicode)
 end
 
 function love.update(dt)
-  readCameraInput()
+  -- Call the psuedo event. NOTE: might want to actually use love events for this
+  if love.keyboard.keyheld ~= nil then direction = love.keyboard.keyheld() end
 
   --  update all entities in a uniform way
   for i, entity in ipairs(entities) do
@@ -127,9 +157,7 @@ function love.update(dt)
         entity.physics:update(dt)
       end
 
-      local direction = readPlayerInput(player)
-      player.movement:go(dt, direction)
-
+      entity.movement:go(dt, direction)
     end)
   end
 
