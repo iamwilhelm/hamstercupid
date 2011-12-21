@@ -14,43 +14,6 @@ require('characters/person')
 
 -- Read player input
 
-function readPlayerInput(entity)
-  local direction = V:new(0, 0)
-
-  if love.keyboard.isDown('right') then
-    direction.x = 1
-    entity.model.state = "walk.right"
-    entity.children[1].model.state = "look.right"
-  end
-  if love.keyboard.isDown('left') then
-    direction.x = -1
-    entity.model.state = "walk.left"
-    entity.children[1].model.state = "look.left"
-  end
-  if love.keyboard.isDown('down') then
-    direction.y = 1
-    if string.find(entity.model.state, "right") then
-      entity.model.state = "walk.down.right"
-      entity.children[1].model.state = "look.down.right"
-    else 
-      entity.model.state = "walk.down.left"
-      entity.children[1].model.state = "look.down.left"
-    end
-  end
-  if love.keyboard.isDown('up') then
-    direction.y = -1
-    if string.find(entity.model.state, "right") then
-      entity.model.state = "walk.up.right"
-      entity.children[1].model.state = "look.up.right"
-    else
-      entity.model.state = "walk.up.left"
-      entity.children[1].model.state = "look.up.left"
-    end
-  end
-  
-  return direction
-end
-
 function readCameraInput()
   if love.keyboard.isDown("l") then
     camera:pan(V:new(20, 0))
@@ -79,10 +42,35 @@ end
 Keyboard = {}
 Keyboard.__index = Keyboard
 function Keyboard:new()
-  local instance = {}
+  local instance = {
+    map = {},
+  }
   setmetatable(instance, self)
   return instance 
 end
+
+-- Every entity has controls that need to be hooked to an input. The input to the controls 
+-- may be the keyboard, a script, or AI
+function Keyboard:hookTo(block)
+  block(self.map)
+end
+
+function Keyboard:navigateWithKeyPressedActions(key)
+end
+
+function Keyboard:navigateWithKeyHeldActions()
+  for key, navigation in pairs(self.map) do
+    if love.keyboard.isDown(key) then
+      print("pushed key: " .. key)
+      print(navigation)
+      navigation()
+    end
+  end
+end
+
+function Keyboard:navigateWithKeyReleaseActions(key)
+end
+
 
 -- Map functions
 
@@ -119,48 +107,68 @@ function love.load()
   entities = {}
 
   math.randomseed(os.time())
-  for i = 1, 5 do 
+  for i = 1, 1 do 
     -- table.insert(entities, createPerson(400, 300))
     table.insert(entities, createPerson(math.random(20, 780), math.random(20, 580)))
   end
   player = entities[1]
-  player.controls.hookTo(Keyboard:new())
   
+  keyboard = Keyboard:new()
+  keyboard:hookTo(function(map)
+    map.up = function()
+      player:control("north")
+    end
+    map.down = function()
+      player:control("south")
+    end
+    map.right = function()
+      player:control("east")
+    end
+    map.left = function()
+      player:control("west")
+    end
+    map["z"] = function()
+      player:control("throw")
+    end
+    map.otherwise = function()
+      player:control("stand")
+    end
+  end)
 end
 
 function love.keyboard.keypressed(key, unicode)
-  player.controls.oneTimeActions(key)
-end
-
--- This is a pseudo event that I created for consistency, but it's really being 
--- called from love.update()
---
--- FIXME The parameters don't actually work, so I don't know if this is a good 
--- idea, since we have to use isKeyDown() anyway
-function love.keyboard.keyheld(key, unicode)
-  readCameraInput()
-  player.controls:navigateWithKeyHeldAction(key)
-  return readPlayerInput(player)
 end
 
 function love.keyboard.keyreleased(key, unicode)
 end
 
 function love.update(dt)
-  -- Call the psuedo event. NOTE: might want to actually use love events for this
-  if love.keyboard.keyheld ~= nil then direction = love.keyboard.keyheld() end
+  -- allow player entities to accept input
+  readCameraInput()
+  keyboard:navigateWithKeyHeldActions()
 
-  --  update all entities in a uniform way
-  for i, entity in ipairs(entities) do
-    entity:update(dt, function()
-      if entity.physics ~= nil then
-        entity.physics:update(dt)
-      end
-
-      entity.movement:go(dt, direction)
-    end)
+  -- allow the entities to think
+  for _, entity in ipairs(entities) do
+    entity:think(dt)
   end
 
+  -- control the entities based on thinking decisions
+  -- FIXME Consider whether navigate should be in subsumed in move()
+  for _, entity in ipairs(entities) do
+    entity:navigate(dt)
+  end
+
+  -- calculate the different motions and physics and collision detection
+  for _, entity in ipairs(entities) do
+    entity:move(dt) 
+  end
+
+  --  update the positions and animations of all entities in a uniform way
+  for _, entity in ipairs(entities) do
+    entity:update(dt)
+  end
+
+  print("-----------")
 end
 
 function love.draw()

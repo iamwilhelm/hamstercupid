@@ -43,7 +43,7 @@ function Entity:new(name, position, scale, rotation)
   instance.view = Entity.View:new(instance, instance.model)
   instance.movement = Entity.Movement:new(instance, instance.model)
   instance.physics = Entity.Physics:new(instance.model)
-  instance.controls = Entity.WalkingControls:new(instance.view)
+  instance.controls = Entity.WalkingControls:new(instance, instance.view, instance.movement)
 
   instance.parent = nil
   instance.children = {}
@@ -66,9 +66,33 @@ function Entity:addChild(child_entity)
 end
 
 -- Entity update methods
-function Entity:update(dt, block)
-  -- print("Moving entity: " .. self.name)
-  self.movement:update(dt, block)
+function Entity:think(dt)
+  -- Allow the entity to make a decision 
+  -- self.brain:think(dt)
+end
+
+-- Entity control method...could it be in "think"?
+function Entity:control(commandname)
+  self.controls[commandname](self.controls)
+
+  for _, child_entity in pairs(self.children) do
+    child_entity:control(commandname)
+  end
+end
+
+-- Allow the entity to move based on the thinking decisions
+function Entity:navigate(dt)
+  self.controls:navigate(dt)
+end
+
+-- Move the positioning of the entity based on its motions and movements
+function Entity:move(dt)
+  if self.physics ~= nil then self.physics:update(dt) end
+  self.movement:move(dt)
+end
+
+-- Update the animations and the views of the entity
+function Entity:update(dt)
   self.view:update(dt)
 end
 
@@ -76,6 +100,10 @@ end
 function Entity:draw()
   -- have to figure out some way draw in z-order of all the children
   self.view:draw()
+
+  -- FIXME I think the entity should look through all the child entities to draw them, not the view...
+  -- Actually, no, because we have push states of the matrix transformations. Should it be a block, so 
+  -- We can loop through the children here, but we don't need a reference to the child_entities in the view?
 end
 
 -- metamethods

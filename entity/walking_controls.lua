@@ -10,41 +10,81 @@ WalkingControls:include(Metamethodable)
 
 -- Add the different state machine definitions to be instanciated for every instance
 
-function WalkingControls:new(view)
+function WalkingControls:new(entity, view, movement)
   local instance = {
     klass = WalkingControls,
+    entity = entity,
     view = view,
+    movement = movement,
 
-    verticalState = nil,
-    horizontalState = nil,
-    throwState = nil,
+    state = { 
+      move = "stand",
+      vert = "down",
+      horz = "left",
+    },
     mapping = {},
+
+    direction = V:new(0, 0),
   }
   setmetatable(instance, WalkingControls)
   
   return instance
 end
 
--- Every entity has controls that need to be hooked to an input. The input to the controls 
--- may be the keyboard, a script, or AI
-function WalkingControls:hookTo(input)
+---------------------- Initialization and Setting Methods ----------------------
 
+function WalkingControls:interface(initialState, block)
+  self.state = initialState
+  block(self.mapping)
 end
 
--- Changes the state of the entity correctly, so that other components are doing the right thing.
--- Should this change the animation? Or do we store it and change the animation when animation asks for it?
--- I'm guessing the latter, because event keypress may happen not when you draw anything.
-function WalkingControls:navigateWithKeyPressedAction(key)
-end
-
-
-function WalkingControls:navigateWithKeyHeldAction(key)
-  if love.keyboard.isDown("up") then
-    print("up!")
+function WalkingControls:toState(stateChanges)
+  for k, v in pairs(stateChanges) do
+    self.state[k] = stateChanges[k]
   end
 end
 
-function WalkingControls:navigateWithKeyReleaseAction(key)
+------------------------------ Command and Control Methods -----------------------------
+
+function WalkingControls:north()
+  self.direction = V:new(0, -1)
+  self.mapping.north(self)
+end
+
+function WalkingControls:south()
+  self.direction = V:new(0, 1)
+  self.mapping.south(self)
+end
+
+function WalkingControls:east()
+  self.direction = V:new(1, 0)
+  self.mapping.east(self)
+end
+
+function WalkingControls:west()
+  self.direction = V:new(-1, 0)
+  self.mapping.west(self)
+end
+
+function WalkingControls:throw()
+  self.mapping.throw(self)
+end
+
+function WalkingControls:otherwise()
+  self.mapping.stand(self)
+end
+
+--------------------------- Navigation Stage Method -------------------------------
+
+function WalkingControls:navigate(dt)
+  self.movement:go(dt, self.direction)
+
+  local state = self.state["move"] .. "." .. self.state["vert"] .. "." .. self.state["horz"]
+  self.view:setCurrentAnimation(state)
+
+  for _, child_entity in ipairs(self.entity.children) do
+    child_entity:navigate(dt)
+  end
 end
 
 return WalkingControls

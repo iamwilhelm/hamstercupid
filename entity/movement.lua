@@ -46,31 +46,32 @@ function Movement:new(entity, model)
 end
 
 function Movement:go(dt, direction)
-  local acc = V:new(0, 0)
   if (direction.x > 0) then
     self:addToAcceleration(V:new(Motion.accel_max, 0))
+    print(self)
   elseif (direction.x < 0) then
     self:addToAcceleration(V:new(-Motion.accel_max, 0))
-  else
-    -- acc.x = 0
+    print(self)
   end
 
   if (direction.y > 0) then
     self:addToAcceleration(V:new(0, Motion.accel_max))
   elseif (direction.y < 0) then
     self:addToAcceleration(V:new(0, -Motion.accel_max))
-  else
-    -- acc.y = 0
   end
+  print(self)
 end
 
 
 
--- Entity movement control methods
+-- Entity movement initialization methods
 function Movement:addMovement(block)
   table.insert(self.motions, block)
 end
 
+-- NOTE: We have the addTo* functions because Motions make use of them and 
+-- we need a public interface
+--
 -- Add the differential acceleration to accumulated acceleration 
 function Movement:addToAcceleration(acc)
   self.accumulated_acc:accum(acc)
@@ -87,14 +88,9 @@ function Movement:addToPosition(pos)
 end
 
 -- Provides the core engine for updating an entity's motions
-function Movement:update(dt, block)
+function Movement:move(dt)
   -- reset the accumulated motions since last tick
   self:_reset()
-
-  -- allow motions from every tick, such as player controls
-  if block ~= nil then
-    block(dt)
-  end
 
   -- do all the pre-declared motions for this entity
   for _, motion in ipairs(self.motions) do
@@ -103,10 +99,9 @@ function Movement:update(dt, block)
 
   -- push the updates to the model
   self:_pushToModel(dt)
-  
-  -- repeat for all child entities
+
   for _, child_entity in ipairs(self.entity.children) do
-    child_entity:update(dt)
+    child_entity:move(dt)
   end
 end
 

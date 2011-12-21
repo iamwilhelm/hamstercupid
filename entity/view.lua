@@ -20,6 +20,7 @@ function View:new(entity, model)
     spriteBatch = nil,
     animations = {},
     animationTime = 0,
+    animationState = nil,
   }
   setmetatable(instance, self)
 
@@ -52,17 +53,27 @@ end
 
 -- helper functions
 
+function View:setCurrentAnimation(animationState)
+  print("keys for the animation: " .. animationState)
+  print(self.animations[animationState])
+
+  if self.animations[animationState] ~= nil then
+    self.animationState = animationState
+    print("set animation state to: " .. self.animationState)
+  else
+    error("Invalid animationName set: " .. animationState)
+  end
+
+  -- TODO ask the entity to tell all child entities of the animation change
+end
+
 function View:currentAnimation()
-  local animation = self.animations[self.model.state]
+  local animation = self.animations[self.animationState]
   if animation == nil then
-    error("Animation for state: " .. self.model.state .. " was not found")
+    error("Animation for state: " .. self.animationState .. " was not found")
   else
     return animation 
   end
-end
-
-function View:getCenter()
-  return self:currentAnimation():getCenter()
 end
 
 -- Error: ./entity_view.lua:65: Incorrect parameter type: expected userdata.
@@ -78,11 +89,16 @@ end
 -- 
 function View:update(dt)
   self.spriteBatch:clear()
-  self:currentAnimation():tickAnimation(dt)
   local scale = self:currentAnimation():getScale()
-  local center = self:getCenter()
+  local center = self:currentAnimation():getCenter()
+  self:currentAnimation():tickAnimation(dt)
+
   -- FIXME It seems that sometimes, currentAnimation is selected that doesn't have any frames at all?
   self.spriteBatch:addq(self:currentAnimation():getFrame(), 0, 0, 0, scale.x, scale.y, center.x, center.y)
+
+  for _, child_entity in ipairs(self.entity.children) do
+    child_entity:update(dt)
+  end
 end
 
 -- Entity drawing methods
@@ -145,7 +161,7 @@ function View:drawMotionVectors()
 end
 
 -- metamethods
-View.__tostring = View.tostringByAttr({ spriteMap=1, spriteBatch=1, animations=1, animationTime=1 })
+View.__tostring = View.tostringByAttr({ spriteMap=1, spriteBatch=1, animations=1, animationTime=1, animationState=1 })
 
 return View
 
