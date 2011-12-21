@@ -69,7 +69,7 @@ function WalkingControls:throw()
   self.mapping.throw(self)
 end
 
-function WalkingControls:otherwise()
+function WalkingControls:stand()
   self.mapping.stand(self)
 end
 

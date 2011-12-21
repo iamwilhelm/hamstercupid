@@ -59,11 +59,16 @@ function Keyboard:navigateWithKeyPressedActions(key)
 end
 
 function Keyboard:navigateWithKeyHeldActions()
-  for key, navigation in pairs(self.map) do
+  local defaultFlag = true
+  for key, controlAction in pairs(self.map) do
     if love.keyboard.isDown(key) then
       print("pushed key: " .. key)
-      navigation()
+      controlAction()
+      defaultFlag = false
     end
+  end
+  if defaultFlag == true then
+    self.map.default()
   end
 end
 
@@ -129,7 +134,7 @@ function love.load()
     map["z"] = function()
       player:control("throw")
     end
-    map.otherwise = function()
+    map.default = function()
       player:control("stand")
     end
   end)
