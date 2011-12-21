@@ -53,12 +53,8 @@ end
 -- helper functions
 
 function View:setCurrentAnimation(animationState)
-  print("keys for the animation: " .. animationState)
-  print(self.animations[animationState])
-
   if self.animations[animationState] ~= nil then
     self.animationState = animationState
-    print("set animation state to: " .. self.animationState)
   else
     error("Invalid animationName set: " .. animationState)
   end

@@ -62,7 +62,6 @@ function Keyboard:navigateWithKeyHeldActions()
   for key, navigation in pairs(self.map) do
     if love.keyboard.isDown(key) then
       print("pushed key: " .. key)
-      print(navigation)
       navigation()
     end
   end

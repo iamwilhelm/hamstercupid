@@ -50,7 +50,6 @@ function Movement:go(dt, direction)
     print(self)
   elseif (direction.x < 0) then
     self:addToAcceleration(V:new(-Motion.accel_max, 0))
-    print(self)
   end
 
   if (direction.y > 0) then
@@ -58,7 +57,6 @@ function Movement:go(dt, direction)
   elseif (direction.y < 0) then
     self:addToAcceleration(V:new(0, -Motion.accel_max))
   end
-  print(self)
 end
 
 -- Entity movement initialization methods
