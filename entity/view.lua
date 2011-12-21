@@ -10,10 +10,9 @@ View.__index = View
 
 View:include(Metamethodable)
 
-function View:new(entity, model)
+function View:new(model)
   local instance = {
     klass = View,
-    entity = entity,
     model = model,
 
     spriteMap = nil,
@@ -63,8 +62,6 @@ function View:setCurrentAnimation(animationState)
   else
     error("Invalid animationName set: " .. animationState)
   end
-
-  -- TODO ask the entity to tell all child entities of the animation change
 end
 
 function View:currentAnimation()
@@ -95,40 +92,21 @@ function View:update(dt)
 
   -- FIXME It seems that sometimes, currentAnimation is selected that doesn't have any frames at all?
   self.spriteBatch:addq(self:currentAnimation():getFrame(), 0, 0, 0, scale.x, scale.y, center.x, center.y)
-
-  for _, child_entity in ipairs(self.entity.children) do
-    child_entity:update(dt)
-  end
 end
 
 -- Entity drawing methods
 
-function View:draw()
+function View:draw(block)
   -- transform coordinate system to entity's local coordinate system
 
-  -- self:transform(function()
-  love.graphics.push()
-
-  love.graphics.translate(self.model.pos.x, self.model.pos.y)
-  love.graphics.rotate(self.model.rot)
-  love.graphics.scale(self.model.scl.x, self.model.scl.y)
-
-    -- TODO use unpack for position and center vectors
+  self:transform(function()
     love.graphics.draw(self.spriteBatch, 0, 0, 0, 1, 1)
 
-    for name, child_entity in pairs(self.entity.children) do
-      child_entity:draw()
-    end
+    if block ~= nil then block() end
 
     -- for debugging
     -- self:drawMotionVectors()
-
-    if not self.entity:hasParent() then
-      -- self:drawDebug()
-    end
-
-  love.graphics.pop()
-  -- end)
+  end)
 end
 
 -- transform coordinate to draw the child entity
@@ -140,6 +118,7 @@ function View:transform(block)
   love.graphics.translate(self.model.pos.x, self.model.pos.y)
   love.graphics.rotate(self.model.rot)
   love.graphics.scale(self.model.scl.x, self.model.scl.y)
+  
   block()
 
   love.graphics.pop()

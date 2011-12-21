@@ -10,10 +10,9 @@ WalkingControls:include(Metamethodable)
 
 -- Add the different state machine definitions to be instanciated for every instance
 
-function WalkingControls:new(entity, view, movement)
+function WalkingControls:new(view, movement)
   local instance = {
     klass = WalkingControls,
-    entity = entity,
     view = view,
     movement = movement,
 
@@ -81,10 +80,6 @@ function WalkingControls:navigate(dt)
 
   local state = self.state["move"] .. "." .. self.state["vert"] .. "." .. self.state["horz"]
   self.view:setCurrentAnimation(state)
-
-  for _, child_entity in ipairs(self.entity.children) do
-    child_entity:navigate(dt)
-  end
 end
 
 return WalkingControls

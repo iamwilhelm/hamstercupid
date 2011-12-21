@@ -26,12 +26,11 @@ Movement.__index = Movement
 
 Movement:include(Metamethodable)
 
-function Movement:new(entity, model)
+function Movement:new(model)
   -- The coordinate system for movement is with respect to the entity, 
   -- unlike in the model, the coordinate system is with respect to the parent entity
   local instance = {
     klass = Movement,
-    entity = entity,
     model = model,
 
     accumulated_acc = V:new(0, 0),
@@ -61,8 +60,6 @@ function Movement:go(dt, direction)
   end
   print(self)
 end
-
-
 
 -- Entity movement initialization methods
 function Movement:addMovement(block)
@@ -99,10 +96,6 @@ function Movement:move(dt)
 
   -- push the updates to the model
   self:_pushToModel(dt)
-
-  for _, child_entity in ipairs(self.entity.children) do
-    child_entity:move(dt)
-  end
 end
 
 -- private methods
