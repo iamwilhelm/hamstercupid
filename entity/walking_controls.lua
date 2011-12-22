@@ -70,6 +70,7 @@ function WalkingControls:throw()
 end
 
 function WalkingControls:stand()
+  self.direction = V:new(0, 0)
   self.mapping.stand(self)
 end
 
