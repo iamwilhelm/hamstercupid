@@ -76,11 +76,32 @@ end
 
 --------------------------- Navigation Stage Method -------------------------------
 
-function WalkingControls:navigate(dt)
-  self.movement:go(dt, self.direction)
+-- Navigation direction should only be applied to the root entity, so that's
+-- why we ask for it. Otherwise, every level down in the child hierarchy will 
+-- move in double the direction. However, we need all the child entities to be called
+-- in the entity:navigate() since we need the currentAnimation state to propagate down 
+-- to the child entities
+function WalkingControls:navigate(dt, isRoot)
+  if isRoot == true then
+    self:go(dt, self.direction)
+  end
 
   local state = self.state["move"] .. "." .. self.state["vert"] .. "." .. self.state["horz"]
   self.view:setCurrentAnimation(state)
+end
+
+function WalkingControls:go(dt, direction)
+  if (direction.x > 0) then
+    self.movement:addToAcceleration(V:new(Motion.accel_max, 0))
+  elseif (direction.x < 0) then
+    self.movement:addToAcceleration(V:new(-Motion.accel_max, 0))
+  end
+
+  if (direction.y > 0) then
+    self.movement:addToAcceleration(V:new(0, Motion.accel_max))
+  elseif (direction.y < 0) then
+    self.movement:addToAcceleration(V:new(0, -Motion.accel_max))
+  end
 end
 
 return WalkingControls

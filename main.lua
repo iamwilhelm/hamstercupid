@@ -156,23 +156,15 @@ function love.update(dt)
     entity:think(dt)
   end
 
-  -- control the entities based on thinking decisions
-  -- FIXME Consider whether navigate should be in subsumed in move()
-  for _, entity in ipairs(entities) do
-    entity:navigate(dt)
-  end
-
   -- calculate the different motions and physics and collision detection
   for _, entity in ipairs(entities) do
-    entity:move(dt) 
+    entity:move(dt)
   end
 
   --  update the positions and animations of all entities in a uniform way
   for _, entity in ipairs(entities) do
     entity:update(dt)
   end
-
-  print("-----------")
 end
 
 function love.draw()

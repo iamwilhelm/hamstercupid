@@ -68,11 +68,6 @@ end
 
 ---------------------- Entity update methods -------------------------
 
-function Entity:think(dt)
-  -- Allow the entity to make a decision 
-  -- self.brain:think(dt)
-end
-
 -- Entity control method...could it be in "think"?
 function Entity:control(commandname)
   self.controls[commandname](self.controls)
@@ -82,20 +77,19 @@ function Entity:control(commandname)
   end
 end
 
--- Allow the entity to move based on the thinking decisions
-function Entity:navigate(dt)
-  self.controls:navigate(dt)
-  
-  for _, child_entity in ipairs(self.children) do
-    child_entity:navigate(dt)
-  end
+function Entity:think(dt)
+  -- Allow the entity to make a decision 
+  -- self.brain:think(dt)
 end
 
 -- Move the positioning of the entity based on its motions and movements
 function Entity:move(dt)
-  if self.physics ~= nil then self.physics:update(dt) end
-  self.movement:move(dt)
-
+  self.movement:move(dt, function(dt)
+    self.controls:navigate(dt, not self:hasParent())
+    self.movement:motion(dt)
+    self.physics:update(dt)
+  end)
+    
   for _, child_entity in ipairs(self.children) do
     child_entity:move(dt)
   end

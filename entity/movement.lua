@@ -44,20 +44,6 @@ function Movement:new(model)
   return instance
 end
 
-function Movement:go(dt, direction)
-  if (direction.x > 0) then
-    self:addToAcceleration(V:new(Motion.accel_max, 0))
-    print(self)
-  elseif (direction.x < 0) then
-    self:addToAcceleration(V:new(-Motion.accel_max, 0))
-  end
-
-  if (direction.y > 0) then
-    self:addToAcceleration(V:new(0, Motion.accel_max))
-  elseif (direction.y < 0) then
-    self:addToAcceleration(V:new(0, -Motion.accel_max))
-  end
-end
 
 -- Entity movement initialization methods
 function Movement:addMovement(block)
@@ -83,18 +69,25 @@ function Movement:addToPosition(pos)
 end
 
 -- Provides the core engine for updating an entity's motions
-function Movement:move(dt)
+function Movement:move(dt, block)
   -- reset the accumulated motions since last tick
   self:_reset()
-
-  -- do all the pre-declared motions for this entity
-  for _, motion in ipairs(self.motions) do
-    motion(self, self.model, dt)
-  end
+  
+  -- Any motions and movements to be accumulated and moved is called in the block
+  -- The block is required, because otherwise, nothing would move
+  block(dt)
 
   -- push the updates to the model
   self:_pushToModel(dt)
 end
+
+function Movement:motion(dt)
+  -- do all the pre-declared motions for this entity
+  for _, motion in ipairs(self.motions) do
+    motion(self, self.model, dt)
+  end
+end
+
 
 -- private methods
 
